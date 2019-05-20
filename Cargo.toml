@@ -1,0 +1,20 @@
+[package]
+name = "arcdps-bhud"
+version = "0.1.0"
+authors = ["Greaka <mrgreaka@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+arcdps_bindings = { git = "https://github.com/greaka/arcdps_bindings" }
+named_pipe = "0.4"
+
+[dependencies.winapi]
+version = "0.3"
+features = ["ntdef", "minwindef"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+codegen-units = 1
