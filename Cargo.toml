@@ -8,6 +8,7 @@ edition = "2018"
 arcdps_bindings = { git = "https://github.com/greaka/arcdps_bindings" }
 named_pipe = "0.4"
 stopwatch = "0.0"
+quick-protobuf = "0.6"
 
 [dependencies.winapi]
 version = "0.3"
