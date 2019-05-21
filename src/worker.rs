@@ -1,10 +1,11 @@
 use named_pipe::PipeClient;
 use std::sync::mpsc;
+use stopwatch::Stopwatch;
 
 const PIPE_PREFIX: &str = "\\\\.\\pipe\\";
 
 pub struct Device {
-    sender: mpsc::SyncSender<()>,
+    sender: mpsc::SyncSender<fn() -> String>,
 }
 
 impl Device {
@@ -13,18 +14,24 @@ impl Device {
         let device = Device { sender: tx };
         std::thread::spawn(move || {
             let one_ms = std::time::Duration::from_millis(1);
+            let mut watch = Stopwatch::new();
             loop {
-                rx.recv().unwrap();
+                let func = rx.recv().unwrap();
                 if let Ok(client) = PipeClient::connect(PIPE_PREFIX.to_string() + name) {
-                    std::thread::sleep(one_ms);
-                    let _ = client.write_async_owned("".into());
+                    watch.restart();
+                    let packet = func();
+                    let elapsed = watch.elapsed();
+                    if elapsed < one_ms {
+                        std::thread::sleep(one_ms - elapsed);
+                    }
+                    let _ = client.write_async_owned(packet.into());
                 }
             }
         });
         return device;
     }
 
-    pub fn send(&self) -> Result<(), mpsc::TrySendError<()>> {
-        self.sender.try_send(())
+    pub fn send(&self, func: fn() -> String) -> Result<(), mpsc::TrySendError<fn() -> String>> {
+        self.sender.try_send(func)
     }
 }

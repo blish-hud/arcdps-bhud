@@ -41,7 +41,7 @@ fn imgui(not_charsel_or_loading: u32) -> usize {
     if not_charsel_or_loading > 0 {
         unsafe {
             if let Some(d) = &DEVICE {
-                let _ = d.send();
+                let _ = d.send(|| "".to_owned());
             };
         }
     }
@@ -52,7 +52,7 @@ fn imgui(not_charsel_or_loading: u32) -> usize {
 /* export -- arcdps looks for this exported function and calls the address it returns on client load */
 pub extern "system" fn get_init_addr(
     _arcversionstr: PCCHAR,
-    _mguicontext: LPVOID,
+    _imguicontext: LPVOID,
     _id3dd9: LPVOID,
 ) -> LPVOID {
     main as LPVOID
