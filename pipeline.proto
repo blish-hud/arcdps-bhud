@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package pipeline;
+
 message arc {
     mtype msgtype = 2;
     oneof msg {

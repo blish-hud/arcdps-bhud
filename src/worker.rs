@@ -1,13 +1,13 @@
-use crate::pipeline::arc;
+use crate::pipeline::Arc;
 use named_pipe::PipeClient;
-use quick_protobuf::Writer;
+use prost::Message;
 use std::sync::mpsc;
 use stopwatch::Stopwatch;
 
 const PIPE_PREFIX: &str = "\\\\.\\pipe\\";
 
 pub struct Device {
-    sender: mpsc::SyncSender<fn() -> arc>,
+    sender: mpsc::SyncSender<fn() -> Arc>,
 }
 
 impl Device {
@@ -21,20 +21,22 @@ impl Device {
                 let func = rx.recv().unwrap();
                 if let Ok(client) = PipeClient::connect(PIPE_PREFIX.to_string() + name) {
                     watch.restart();
-                    let mut writer = Writer::new(client);
                     let msg = func();
-                    let elapsed = watch.elapsed();
-                    if elapsed < one_ms {
-                        std::thread::sleep(one_ms - elapsed);
+                    let mut buf = Vec::<u8>::new();
+                    if let Ok(_) = msg.encode(&mut buf) {
+                        let elapsed = watch.elapsed();
+                        if elapsed < one_ms {
+                            std::thread::sleep(one_ms - elapsed);
+                        }
+                        let _ = client.write_async_owned(buf);
                     }
-                    let _ = writer.write_message(&msg);
                 }
             }
         });
         device
     }
 
-    pub fn send(&self, func: fn() -> arc) -> Result<(), mpsc::TrySendError<fn() -> arc>> {
+    pub fn send(&self, func: fn() -> Arc) -> Result<(), mpsc::TrySendError<fn() -> Arc>> {
         self.sender.try_send(func)
     }
 }

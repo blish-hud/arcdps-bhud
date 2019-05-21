@@ -3,16 +3,21 @@ name = "arcdps-bhud"
 version = "0.1.0"
 authors = ["Greaka <mrgreaka@gmail.com>"]
 edition = "2018"
+build = "build.rs"
 
 [dependencies]
 arcdps_bindings = { git = "https://github.com/greaka/arcdps_bindings" }
 named_pipe = "0.4"
 stopwatch = "0.0"
-quick-protobuf = "0.6"
+bytes = "0.4"
+prost = "0.5"
 
 [dependencies.winapi]
 version = "0.3"
 features = ["ntdef", "minwindef"]
+
+[build-dependencies]
+prost-build = "0.5"
 
 [lib]
 crate-type = ["cdylib"]

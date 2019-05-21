@@ -16,8 +16,8 @@ pub fn drop_device() {
 }
 
 pub fn send_to_device(
-    func: fn() -> pipeline::arc,
-) -> Result<(), std::sync::mpsc::TrySendError<fn() -> pipeline::arc>> {
+    func: fn() -> pipeline::Arc,
+) -> Result<(), std::sync::mpsc::TrySendError<fn() -> pipeline::Arc>> {
     unsafe {
         if let Some(d) = &DEVICE {
             d.send(func)
@@ -29,9 +29,9 @@ pub fn send_to_device(
 
 fn hello() {
     for _ in 0..5 {
-        if let Ok(_) = send_to_device(|| pipeline::arc {
-            msgtype: pipeline::mtype::Greeting,
-            msg: pipeline::mod_arc::OneOfmsg::greeting(true),
+        if let Ok(_) = send_to_device(|| pipeline::Arc {
+            msgtype: pipeline::Mtype::Greeting as i32,
+            msg: Some(pipeline::arc::Msg::Greeting(true)),
         }) {
             break;
         }
@@ -40,9 +40,9 @@ fn hello() {
 
 fn bye() {
     for _ in 0..5 {
-        if let Ok(_) = send_to_device(|| pipeline::arc {
-            msgtype: pipeline::mtype::Greeting,
-            msg: pipeline::mod_arc::OneOfmsg::greeting(false),
+        if let Ok(_) = send_to_device(|| pipeline::Arc {
+            msgtype: pipeline::Mtype::Greeting as i32,
+            msg: Some(pipeline::arc::Msg::Greeting(false)),
         }) {
             break;
         }
