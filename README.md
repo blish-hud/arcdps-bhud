@@ -4,6 +4,12 @@
 This is a plugin that uses the [Arcdps](https://www.deltaconnected.com/arcdps/) [Combat API](https://www.deltaconnected.com/arcdps/api/) and exposes
 some of the data to [Blish HUD](https://github.com/dlamkins/BlishHUD).
 
+# Installing
+
+Download the binary from the [releases](https://github.com/greaka/arcdps-bhud/releases) page and extract the dll into your `bin64` folder.
+
+If you are unsure which version you want to download, take the one with `msvc` in the name.
+
 # Clone the repo
 
 ```powershell
