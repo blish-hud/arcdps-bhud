@@ -1,7 +1,10 @@
 use crate::pipeline::Arc;
 use named_pipe::PipeClient;
 use prost::Message;
-use std::sync::mpsc;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    mpsc, Arc as AtomicRc,
+};
 use stopwatch::Stopwatch;
 
 const PIPE_PREFIX: &str = "\\\\.\\pipe\\";
@@ -14,11 +17,27 @@ impl Device {
     pub fn new(name: &'static str) -> Device {
         let (tx, rx) = mpsc::sync_channel(1);
         let device = Device { sender: tx };
+        let one_ms = std::time::Duration::from_millis(1);
+        let bhud_active = AtomicRc::new(AtomicBool::new(false));
+        let bhud_share = bhud_active.clone();
+        std::thread::spawn(move || loop {
+            let mut found = false;
+            for process_info in proclist::iterate_processes_info().filter_map(|r| r.ok()) {
+                if process_info.name == "Blish HUD.exe".to_owned() {
+                    found = true;
+                    break;
+                }
+            }
+            if found && !bhud_active.load(Ordering::Relaxed) {
+                std::thread::sleep(one_ms * 30_000);
+            }
+            bhud_active.store(found, Ordering::Relaxed);
+            std::thread::sleep(one_ms * 5000);
+        });
         std::thread::spawn(move || {
-            let one_ms = std::time::Duration::from_millis(1);
+            let mut was_active = false;
             let mut watch = Stopwatch::new();
-            loop {
-                let func = rx.recv().unwrap();
+            let mut send = |func: fn() -> Arc| {
                 if let Ok(client) = PipeClient::connect(PIPE_PREFIX.to_string() + name) {
                     watch.restart();
                     let msg = func();
@@ -30,6 +49,22 @@ impl Device {
                         }
                         let _ = client.write_async_owned(buf);
                     }
+                }
+            };
+            loop {
+                let func = rx.recv().unwrap();
+                let active = bhud_share.load(Ordering::Relaxed);
+                if active {
+                    if !was_active {
+                        send(|| crate::pipeline::Arc {
+                            msgtype: crate::pipeline::Mtype::Greeting as i32,
+                            msg: Some(crate::pipeline::arc::Msg::Greeting(true)),
+                        });
+                        was_active = true;
+                    }
+                    send(func);
+                } else {
+                    was_active = false;
                 }
             }
         });

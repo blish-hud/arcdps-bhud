@@ -11,6 +11,7 @@ named_pipe = "0.4"
 stopwatch = "0.0"
 bytes = "0.4"
 prost = "0.5"
+proclist = "0.9"
 
 [dependencies.winapi]
 version = "0.3"
