@@ -1,19 +1,19 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/4oxkxfu76oft3qkk?svg=true)](https://ci.appveyor.com/project/greaka/arcdps-bhud)
+[![Build status](https://ci.appveyor.com/api/projects/status/ur518hs9piwtlm1t/branch/master?svg=true)](https://ci.appveyor.com/project/greaka/arcdps-bhud-46l35/branch/master)
 # Arcdps BHUD Integration
 
 This is a plugin that uses the [Arcdps](https://www.deltaconnected.com/arcdps/) [Combat API](https://www.deltaconnected.com/arcdps/api/) and exposes
-some of the data to [Blish HUD](https://github.com/dlamkins/BlishHUD).
+some of the data to [Blish HUD](https://github.com/blish-hud/BlishHUD).
 
 # Installing
 
-Download the binary from the [releases](https://github.com/greaka/arcdps-bhud/releases) page and extract the dll into your `bin64` folder.
+Download the binary from the [releases](https://github.com/blish-hud/arcdps-bhud/releases) page and extract the dll into your `bin64` folder.
 
 If you are unsure which version you want to download, take the one with `msvc` in the name.
 
 # Clone the repo
 
 ```powershell
-git clone https://github.com/greaka/arcdps-bhud
+git clone https://github.com/blish-hud/arcdps-bhud
 ```
 
 # Build it
