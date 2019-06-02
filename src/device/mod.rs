@@ -1,4 +1,7 @@
-use crate::{pipeline, worker::Device};
+mod worker;
+
+use crate::pipeline;
+use worker::Device;
 
 static mut DEVICE: Option<Device> = None;
 

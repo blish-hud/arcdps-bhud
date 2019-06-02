@@ -1,7 +1,6 @@
 mod arcdps;
 mod device;
 mod exports;
-mod worker;
 
 pub mod pipeline {
     include!(concat!(env!("OUT_DIR"), "/pipeline.rs"));
