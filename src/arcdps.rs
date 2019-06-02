@@ -6,18 +6,9 @@ use winapi::shared::{minwindef::LPVOID, ntdef::PCCHAR};
 static mut ARCDPS: LPVOID = null::<isize>() as LPVOID;
 
 pub fn gen_arcdps() -> LPVOID {
-    let arcdps = arcdps_bindings::arcdps_exports::new(
-        0x020804,
-        "BHUDrender",
-        "0.1",
-        None,
-        None,
-        Some(imgui as arcdps_bindings::ImguiCallback),
-        None,
-        None,
-        None,
-        None,
-    );
+    let arcdps = arcdps_bindings::arcdps_exports::new(0x020804, "BHUDrender", "0.1")
+        .imgui(imgui as arcdps_bindings::ImguiCallback)
+        .combat(combat as arcdps_bindings::CombatCallback);
 
     unsafe {
         ARCDPS = &arcdps as *const arcdps_bindings::arcdps_exports as LPVOID;

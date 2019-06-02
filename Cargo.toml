@@ -6,19 +6,19 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-arcdps_bindings = { git = "https://github.com/greaka/arcdps_bindings" }
-named_pipe = "0.4"
-stopwatch = "0.0"
-bytes = "0.4"
-prost = "0.5"
-proclist = "0.9"
+arcdps_bindings = { version = "0.1.1", git = "https://github.com/greaka/arcdps_bindings" }
+named_pipe = "0.4.1"
+stopwatch = "0.0.7"
+bytes = "0.4.12"
+prost = "0.5.0"
+proclist = "0.9.2"
 
 [dependencies.winapi]
-version = "0.3"
+version = "0.3.7"
 features = ["ntdef", "minwindef"]
 
 [build-dependencies]
-prost-build = "0.5"
+prost-build = "0.5.0"
 
 [lib]
 crate-type = ["cdylib"]
