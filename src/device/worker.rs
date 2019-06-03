@@ -1,4 +1,4 @@
-use crate::pipeline::Arc;
+use crate::pipeline::{arc::Msg, Arc, Mtype};
 use named_pipe::PipeClient;
 use prost::Message;
 use std::sync::{
@@ -23,7 +23,7 @@ impl Device {
         std::thread::spawn(move || loop {
             let mut found = false;
             for process_info in proclist::iterate_processes_info().filter_map(|r| r.ok()) {
-                if process_info.name == "Blish HUD.exe".to_owned() {
+                if &process_info.name == "Blish HUD.exe" {
                     found = true;
                     break;
                 }
@@ -42,7 +42,7 @@ impl Device {
                     watch.restart();
                     let msg = func();
                     let mut buf = Vec::<u8>::new();
-                    if let Ok(_) = msg.encode(&mut buf) {
+                    if msg.encode(&mut buf).is_ok() {
                         let elapsed = watch.elapsed();
                         if elapsed < one_ms {
                             std::thread::sleep(one_ms - elapsed);
@@ -56,9 +56,9 @@ impl Device {
                 let active = bhud_share.load(Ordering::Relaxed);
                 if active {
                     if !was_active {
-                        send(|| crate::pipeline::Arc {
-                            msgtype: crate::pipeline::Mtype::Greeting as i32,
-                            msg: Some(crate::pipeline::arc::Msg::Greeting(true)),
+                        send(|| Arc {
+                            msgtype: Mtype::Greeting as i32,
+                            msg: Some(Msg::Greeting(true)),
                         });
                         was_active = true;
                     }
@@ -68,10 +68,20 @@ impl Device {
                 }
             }
         });
+
         device
     }
 
     pub fn send(&self, func: fn() -> Arc) -> Result<(), mpsc::TrySendError<fn() -> Arc>> {
         self.sender.try_send(func)
+    }
+}
+
+impl Drop for Device {
+    fn drop(&mut self) {
+        let _ = self.send(|| Arc {
+            msgtype: Mtype::Greeting as i32,
+            msg: Some(Msg::Greeting(false)),
+        });
     }
 }

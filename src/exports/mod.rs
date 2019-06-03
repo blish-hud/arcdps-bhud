@@ -3,8 +3,6 @@ mod combat;
 use crate::{device, pipeline};
 use arcdps_bindings::*;
 
-pub use combat::{drop_combat, gen_combat};
-
 pub fn imgui(not_charsel_or_loading: bool) {
     if not_charsel_or_loading {
         let _ = device::send_to_device(|| pipeline::Arc {
