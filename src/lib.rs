@@ -10,11 +10,13 @@ use winapi::shared::minwindef::LPVOID;
 
 fn main() -> LPVOID {
     device::gen_device();
+    exports::gen_combat();
     arcdps::gen_arcdps()
 }
 
 fn release() {
     arcdps::drop_arcdps();
+    exports::drop_combat();
     device::drop_device();
 }
 

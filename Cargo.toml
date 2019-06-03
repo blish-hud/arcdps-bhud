@@ -6,7 +6,7 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-arcdps_bindings = { version = "0.1.1", git = "https://github.com/greaka/arcdps_bindings" }
+arcdps_bindings = { version = "0.1.2", git = "https://github.com/greaka/arcdps_bindings" }
 named_pipe = "0.4.1"
 stopwatch = "0.0.7"
 bytes = "0.4.12"
