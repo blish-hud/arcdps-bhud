@@ -1,14 +1,14 @@
 mod combat;
 
-use crate::{device, pipeline};
 use arcdps_bindings::*;
+use std::io::prelude::*;
+use std::net::TcpStream;
+
+const CONNECTION_STRING: &'static str = "127.0.0.1:8214";
 
 pub fn imgui(not_charsel_or_loading: bool) {
-    if not_charsel_or_loading {
-        let _ = device::send_to_device(|| pipeline::Arc {
-            msgtype: pipeline::Mtype::Imgui as i32,
-            msg: Some(pipeline::arc::Msg::Imgui(true)),
-        });
+    if let Ok(mut stream) = TcpStream::connect(CONNECTION_STRING) {
+        let _ = stream.write(&[1, not_charsel_or_loading as u8]);
     }
 }
 
