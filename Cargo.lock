@@ -4,14 +4,14 @@
 name = "arcdps-bhud"
 version = "0.1.0"
 dependencies = [
- "arcdps_bindings 0.1.2 (git+https://github.com/greaka/arcdps_bindings)",
+ "arcdps_bindings 0.1.3 (git+https://github.com/greaka/arcdps_bindings)",
  "winapi 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "arcdps_bindings"
-version = "0.1.2"
-source = "git+https://github.com/greaka/arcdps_bindings#b8a1e08b53d78c9bba5914d82f284539c7ca33d1"
+version = "0.1.3"
+source = "git+https://github.com/greaka/arcdps_bindings#27ea648ef44069d5091698f8d143715d6ac912c3"
 dependencies = [
  "winapi 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -36,7 +36,7 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum arcdps_bindings 0.1.2 (git+https://github.com/greaka/arcdps_bindings)" = "<none>"
+"checksum arcdps_bindings 0.1.3 (git+https://github.com/greaka/arcdps_bindings)" = "<none>"
 "checksum winapi 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)" = "f10e386af2b13e47c89e7236a7a14a086791a2b88ebad6df9bf42040195cf770"
 "checksum winapi-i686-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
 "checksum winapi-x86_64-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"

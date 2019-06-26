@@ -1,15 +1,10 @@
 mod combat;
 
+use crate::device::send_to_device;
 use arcdps_bindings::*;
-use std::io::prelude::*;
-use std::net::TcpStream;
-
-const CONNECTION_STRING: &'static str = "127.0.0.1:8214";
 
 pub fn imgui(not_charsel_or_loading: bool) {
-    if let Ok(mut stream) = TcpStream::connect(CONNECTION_STRING) {
-        let _ = stream.write(&[1, not_charsel_or_loading as u8]);
-    }
+    send_to_device([1, not_charsel_or_loading as u8].to_vec());
 }
 
 pub fn combat(
@@ -21,4 +16,21 @@ pub fn combat(
     revision: u64,
 ) {
     combat::cbt(ev, src, dst, skillname, id, revision);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn loop_imgui() {
+        crate::device::gen_device();
+        let sleep = std::time::Duration::from_millis(500);
+        let mut param = false;
+        loop {
+            imgui(param);
+            param = !param;
+            std::thread::sleep(sleep);
+        }
+    }
 }
