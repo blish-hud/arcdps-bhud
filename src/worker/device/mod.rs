@@ -1,8 +1,9 @@
 mod worker;
 
 use std::collections::HashMap;
+use std::sync::atomic::AtomicBool;
 use std::sync::mpsc::Receiver;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 pub use worker::ChannelType;
 use worker::Device;
 
@@ -10,7 +11,7 @@ static mut DEVICE: Option<Mutex<HashMap<&'static str, Device>>> = None;
 
 pub fn gen_device<A>(device_name: &'static str, action: A)
 where
-    A: Fn(Receiver<ChannelType>) + Sized + Send + 'static,
+    A: Fn(Arc<AtomicBool>, Receiver<ChannelType>) + Sized + Send + 'static,
 {
     let device = Device::new(action);
     unsafe {
