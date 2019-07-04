@@ -4,10 +4,12 @@ use std::io::Write;
 use std::sync::mpsc::Receiver;
 
 static NAME: &'static str = "log";
+static FILE_PATH: &'static str = "addons/bhud";
 static FILE_NAME: &'static str = "addons/bhud/errors.log";
 
 pub fn new() {
     let action = |rx: Receiver<ChannelType>| {
+        std::fs::create_dir_all(FILE_PATH);
         let mut file_res = OpenOptions::new().append(true).create(true).open(FILE_NAME);
         loop {
             let content = rx.recv().unwrap();
