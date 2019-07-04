@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "arcdps-bhud"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "arcdps_bindings 0.1.3 (git+https://github.com/greaka/arcdps_bindings)",
  "winapi 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",

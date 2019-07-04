@@ -1,6 +1,6 @@
 [package]
 name = "arcdps-bhud"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Greaka <mrgreaka@gmail.com>"]
 edition = "2018"
 
