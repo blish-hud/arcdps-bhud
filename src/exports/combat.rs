@@ -1,4 +1,4 @@
-use crate::device::send_to_device;
+use crate::worker::socket;
 use arcdps_bindings::{cbtevent, Ag};
 pub fn cbt(
     ev: Option<&cbtevent>,
@@ -9,7 +9,7 @@ pub fn cbt(
     revision: u64,
 ) {
     let message = get_bytes(ev, src, dst, skillname, id, revision);
-    send_to_device(message);
+    socket::send(message);
 }
 
 fn get_bytes(

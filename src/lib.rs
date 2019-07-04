@@ -1,11 +1,12 @@
 mod arcdps;
-mod device;
 mod exports;
+mod worker;
 
 use winapi::shared::minwindef::LPVOID;
 
 fn main() -> LPVOID {
-    device::gen_device();
+    worker::socket::new();
+    worker::log::new();
     arcdps::gen_arcdps()
 }
 
