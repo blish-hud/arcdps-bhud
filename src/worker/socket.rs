@@ -15,6 +15,7 @@ pub fn new() {
     let action = |active: Arc<AtomicBool>, rx: Receiver<ChannelType>| {
         let mut stream = TcpStream::connect(CONNECTION_STRING);
         let duration = Duration::new(1, 0);
+        active.store(stream.is_ok(), Release);
         loop {
             let data_to_send = if active.load(Acquire) {
                 rx.recv().unwrap()

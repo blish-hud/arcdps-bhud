@@ -16,6 +16,7 @@ pub fn new() {
         let _ = std::fs::create_dir_all(FILE_PATH);
         let mut file_res = OpenOptions::new().append(true).create(true).open(FILE_NAME);
         let duration = Duration::new(1, 0);
+        active.store(file_res.is_ok(), Release);
         loop {
             let content = if active.load(Acquire) {
                 rx.recv().unwrap()
