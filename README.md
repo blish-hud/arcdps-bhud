@@ -38,9 +38,3 @@ Open an issue or a PR!
 
 Please check first if you agree with the license.
 
-# Limitations
-
-Currently, these limitations are in place:
-
-- It will start working 30s after detecting BHUD, otherwise bhud could bug out and stop accepting anything
-- Due to a limit of messages per second (depending on PC, on mine it is around 250), this plugin cannot share everything with BHUD
