@@ -9,7 +9,7 @@ pub type ChannelType = Vec<u8>;
 
 pub struct Device {
     active: Arc<AtomicBool>,
-    sender: mpsc::Sender<ChannelType>,
+    sender: mpsc::SyncSender<ChannelType>,
 }
 
 impl Device {
@@ -17,7 +17,7 @@ impl Device {
     where
         A: Fn(Arc<AtomicBool>, Receiver<ChannelType>) + Sized + Send + 'static,
     {
-        let (tx, rx) = mpsc::channel();
+        let (tx, rx) = mpsc::sync_channel(1000);
         let device = Device {
             active: Arc::new(AtomicBool::new(false)),
             sender: tx,
@@ -28,9 +28,9 @@ impl Device {
         device
     }
 
-    pub fn send(&self, func: ChannelType) -> Result<(), mpsc::SendError<ChannelType>> {
+    pub fn send(&self, func: ChannelType) -> Result<(), mpsc::TrySendError<ChannelType>> {
         if self.active.load(Acquire) {
-            self.sender.send(func)
+            self.sender.try_send(func)
         } else {
             Ok(())
         }
