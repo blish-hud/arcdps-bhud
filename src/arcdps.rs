@@ -1,20 +1,12 @@
 use crate::{exports::*, main, release};
 use arcdps_bindings;
-use std::ptr::null;
 use winapi::shared::{minwindef::LPVOID, ntdef::PCCHAR};
 
-static mut ARCDPS: LPVOID = null::<isize>() as LPVOID;
-
 pub fn gen_arcdps() -> LPVOID {
-    let arcdps =
-        arcdps_bindings::arcdps_exports::new(0x0002_0804, "BHUDrender", env!("CARGO_PKG_VERSION"))
-            .imgui(imgui as arcdps_bindings::SafeImguiCallback)
-            .combat(combat as arcdps_bindings::SafeCombatCallback);
-
-    unsafe {
-        ARCDPS = &arcdps as *const arcdps_bindings::arcdps_exports as LPVOID;
-        ARCDPS
-    }
+    arcdps_bindings::arcdps_exports::new(0x0002_0804, "BHUDrender", env!("CARGO_PKG_VERSION"))
+        .imgui(imgui as arcdps_bindings::SafeImguiCallback)
+        .combat(combat as arcdps_bindings::SafeCombatCallback)
+        .save()
 }
 
 #[no_mangle]
