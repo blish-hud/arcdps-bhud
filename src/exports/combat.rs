@@ -8,21 +8,36 @@ pub fn cbt(
     id: u64,
     revision: u64,
 ) {
-    let message = get_bytes(ev, src, dst, skillname, id, revision);
+    let mut message = Vec::new();
+    message.push(2); // indicator for area combat message
+    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
     socket::send(message);
 }
 
-fn get_bytes(
+pub fn cbt_local(
     ev: Option<&cbtevent>,
     src: Option<&Ag>,
     dst: Option<&Ag>,
     skillname: Option<&str>,
     id: u64,
     revision: u64,
-) -> Vec<u8> {
-    let mut messages = 0;
+) {
     let mut message = Vec::new();
-    message.push(2); // indicator for combat message
+    message.push(3); // indicator for local combat message
+    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
+    socket::send(message);
+}
+
+fn add_bytes(
+    message: &mut Vec<u8>,
+    ev: Option<&cbtevent>,
+    src: Option<&Ag>,
+    dst: Option<&Ag>,
+    skillname: Option<&str>,
+    id: u64,
+    revision: u64,
+) {
+    let mut messages = 0;
     if let Some(ev) = ev {
         messages |= 1;
         let mut bytes = get_ev_bytes(ev);
@@ -47,7 +62,6 @@ fn get_bytes(
     message.insert(1, messages);
     message.append(&mut id.to_le_bytes().to_vec());
     message.append(&mut revision.to_le_bytes().to_vec());
-    message
 }
 
 fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {

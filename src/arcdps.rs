@@ -6,6 +6,7 @@ pub fn gen_arcdps() -> LPVOID {
     arcdps_bindings::arcdps_exports::new(0x0002_0804, "BHUDrender", env!("CARGO_PKG_VERSION"))
         .imgui(imgui as arcdps_bindings::SafeImguiCallback)
         .combat(combat as arcdps_bindings::SafeCombatCallback)
+        .combat_local(combat_local as arcdps_bindings::SafeCombatCallback)
         .save()
 }
 

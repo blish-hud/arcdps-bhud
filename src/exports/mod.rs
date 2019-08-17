@@ -18,6 +18,17 @@ pub fn combat(
     combat::cbt(ev, src, dst, skillname, id, revision);
 }
 
+pub fn combat_local(
+    ev: Option<&cbtevent>,
+    src: Option<&Ag>,
+    dst: Option<&Ag>,
+    skillname: Option<&str>,
+    id: u64,
+    revision: u64,
+) {
+    combat::cbt_local(ev, src, dst, skillname, id, revision);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
