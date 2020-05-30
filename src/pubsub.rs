@@ -1,10 +1,10 @@
-use std::net::{TcpListener, TcpStream};
-use smol::{Async, Task};
-use futures::select;
-use piper::Sender;
-use futures::FutureExt;
 use futures::lock::Mutex;
+use futures::select;
+use futures::FutureExt;
 use once_cell::sync::Lazy;
+use piper::Sender;
+use smol::{Async, Task};
+use std::net::{TcpListener, TcpStream};
 
 static SHUTDOWN: Lazy<Mutex<Option<Sender<()>>>> = Lazy::new(|| Mutex::new(None));
 static STREAMS: Lazy<Mutex<Vec<Async<TcpStream>>>> = Lazy::new(|| Mutex::new(Vec::new()));
@@ -18,7 +18,7 @@ pub async fn dispatch(data: Vec<u8>) {
     let mut streams = STREAMS.lock().await;
     let mut to_remove = Vec::new();
     for (i, stream) in streams.iter_mut().enumerate() {
-        if let Err(_) = futures::io::copy(data, stream).await{
+        if let Err(_) = futures::io::copy(data, stream).await {
             to_remove.push(i);
         }
     }
@@ -46,7 +46,8 @@ async fn setup_pubsub() -> Result<(), std::io::Error> {
     }
 
     // Create a listener.
-    let listener = Async::<TcpListener>::bind(format!("127.0.0.1:{}", get_port(std::process::id())))?;
+    let listener =
+        Async::<TcpListener>::bind(format!("127.0.0.1:{}", get_port(std::process::id())))?;
 
     // Accept clients in a loop.
     loop {

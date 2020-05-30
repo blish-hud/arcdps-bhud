@@ -1,6 +1,6 @@
+use crate::pubsub::dispatch;
 use arcdps_bindings::{cbtevent, Ag, AgOwned};
 use smol::Task;
-use crate::pubsub::dispatch;
 
 pub fn cbt(
     ev: Option<&cbtevent>,
@@ -33,7 +33,16 @@ fn spawn_cbt(
     revision: u64,
     indicator: u8,
 ) {
-    Task::spawn(cbt_with_type(ev.copied(), src.map(|x| (*x).into()), dst.map(|x| (*x).into()), skillname, id, revision, indicator)).detach();
+    Task::spawn(cbt_with_type(
+        ev.copied(),
+        src.map(|x| (*x).into()),
+        dst.map(|x| (*x).into()),
+        skillname,
+        id,
+        revision,
+        indicator,
+    ))
+    .detach();
 }
 
 async fn cbt_with_type(
@@ -44,11 +53,11 @@ async fn cbt_with_type(
     id: u64,
     revision: u64,
     indicator: u8,
-){
-        let mut message = Vec::new();
-        message.push(indicator); // indicator for local/area combat message
-        add_bytes(&mut message, ev, src, dst, skillname, id, revision);
-        dispatch(message).await;
+) {
+    let mut message = Vec::new();
+    message.push(indicator); // indicator for local/area combat message
+    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
+    dispatch(message).await;
 }
 
 fn add_bytes(
