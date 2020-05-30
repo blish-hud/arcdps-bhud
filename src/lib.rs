@@ -1,16 +1,17 @@
+mod executor;
 mod arcdps;
 mod exports;
-mod worker;
-
-#[macro_use]
-extern crate lazy_static;
+mod pubsub;
 
 use winapi::shared::minwindef::LPVOID;
 
 fn main() -> LPVOID {
-    worker::socket::new();
-    worker::log::new();
+    executor::setup();
+    pubsub::setup();
     arcdps::gen_arcdps()
 }
 
-fn release() {}
+fn release() {
+    pubsub::teardown();
+    executor::teardown();
+}

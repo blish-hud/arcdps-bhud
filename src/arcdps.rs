@@ -1,5 +1,4 @@
 use crate::{exports::*, main, release};
-use arcdps_bindings;
 use winapi::shared::{minwindef::LPVOID, ntdef::PCCHAR};
 
 pub fn gen_arcdps() -> LPVOID {

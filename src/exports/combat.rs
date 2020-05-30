@@ -1,38 +1,61 @@
-use crate::worker::socket;
-use arcdps_bindings::{cbtevent, Ag};
+use arcdps_bindings::{cbtevent, Ag, AgOwned};
+use smol::Task;
+use crate::pubsub::dispatch;
+
 pub fn cbt(
     ev: Option<&cbtevent>,
     src: Option<&Ag>,
     dst: Option<&Ag>,
-    skillname: Option<&str>,
+    skillname: Option<&'static str>,
     id: u64,
     revision: u64,
 ) {
-    let mut message = Vec::new();
-    message.push(2); // indicator for area combat message
-    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
-    socket::send(message);
+    spawn_cbt(ev, src, dst, skillname, id, revision, 2);
 }
 
 pub fn cbt_local(
     ev: Option<&cbtevent>,
     src: Option<&Ag>,
     dst: Option<&Ag>,
-    skillname: Option<&str>,
+    skillname: Option<&'static str>,
     id: u64,
     revision: u64,
 ) {
-    let mut message = Vec::new();
-    message.push(3); // indicator for local combat message
-    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
-    socket::send(message);
+    spawn_cbt(ev, src, dst, skillname, id, revision, 3);
+}
+
+fn spawn_cbt(
+    ev: Option<&cbtevent>,
+    src: Option<&Ag>,
+    dst: Option<&Ag>,
+    skillname: Option<&'static str>,
+    id: u64,
+    revision: u64,
+    indicator: u8,
+) {
+    Task::spawn(cbt_with_type(ev.copied(), src.map(|x| (*x).into()), dst.map(|x| (*x).into()), skillname, id, revision, indicator)).detach();
+}
+
+async fn cbt_with_type(
+    ev: Option<cbtevent>,
+    src: Option<AgOwned>,
+    dst: Option<AgOwned>,
+    skillname: Option<&'static str>,
+    id: u64,
+    revision: u64,
+    indicator: u8,
+){
+        let mut message = Vec::new();
+        message.push(indicator); // indicator for local/area combat message
+        add_bytes(&mut message, ev, src, dst, skillname, id, revision);
+        dispatch(message).await;
 }
 
 fn add_bytes(
     message: &mut Vec<u8>,
-    ev: Option<&cbtevent>,
-    src: Option<&Ag>,
-    dst: Option<&Ag>,
+    ev: Option<cbtevent>,
+    src: Option<AgOwned>,
+    dst: Option<AgOwned>,
     skillname: Option<&str>,
     id: u64,
     revision: u64,
@@ -40,17 +63,17 @@ fn add_bytes(
     let mut messages = 0;
     if let Some(ev) = ev {
         messages |= 1;
-        let mut bytes = get_ev_bytes(ev);
+        let mut bytes = get_ev_bytes(&ev);
         message.append(&mut bytes);
     };
     if let Some(ag) = src {
         messages |= 1 << 1;
-        let mut bytes = get_ag_bytes(ag);
+        let mut bytes = get_ag_bytes(&ag);
         message.append(&mut bytes);
     };
     if let Some(ag) = dst {
         messages |= 1 << 2;
-        let mut bytes = get_ag_bytes(ag);
+        let mut bytes = get_ag_bytes(&ag);
         message.append(&mut bytes);
     };
     if let Some(name) = skillname {
@@ -98,8 +121,8 @@ fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {
         .collect::<Vec<u8>>()
 }
 
-fn get_ag_bytes(ag: &Ag) -> Vec<u8> {
-    let (string_length, name_bytes) = if let Some(name) = ag.name {
+fn get_ag_bytes(ag: &AgOwned) -> Vec<u8> {
+    let (string_length, name_bytes) = if let Some(name) = &ag.name {
         let bytes = name.as_bytes();
         (bytes.len(), Some(bytes))
     } else {

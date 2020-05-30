@@ -1,14 +1,18 @@
 [package]
 name = "arcdps-bhud"
-version = "0.2.4"
-authors = ["Greaka <mrgreaka@gmail.com>"]
+version = "0.3.0"
+authors = ["Greaka <arcdps-bhud@greaka.de>"]
 edition = "2018"
 
 [dependencies]
-lazy_static = "1.3"
+smol = "0.1.10"
+piper = "0.1.2"
+futures = "0.3.5"
+parking_lot = "0.10.2"
+once_cell = "1.4.0"
 
 [dependencies.arcdps_bindings]
-version = "0.1.5"
+version = "0.1.7"
 git = "https://github.com/greaka/arcdps_bindings"
 # path = "../arcdps_bindings"
 
