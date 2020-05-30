@@ -16,13 +16,15 @@ pub fn setup() {
 pub async fn dispatch(data: Vec<u8>) {
     let data = &data[..];
     let mut streams = STREAMS.lock().await;
-    let mut workload = Vec::with_capacity(streams.len());
-    for stream in streams.iter_mut() {
-        workload.push(futures::io::copy(data, stream));
+    let mut to_remove = Vec::new();
+    for (i, stream) in streams.iter_mut().enumerate() {
+        if let Err(_) = futures::io::copy(data, stream).await{
+            to_remove.push(i);
+        }
     }
 
-    for task in workload.drain(..) {
-        let _ = task.await;
+    for i in to_remove.drain(..).rev() {
+        streams.remove(i);
     }
 }
 
