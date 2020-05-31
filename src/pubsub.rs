@@ -14,6 +14,7 @@ pub fn setup() {
 }
 
 pub async fn dispatch(data: Vec<u8>) {
+    let data = [&data.len().to_le_bytes(), &data[..]].concat();
     let data = &data[..];
     let mut streams = STREAMS.lock().await;
     let mut to_remove = Vec::new();
