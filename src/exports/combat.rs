@@ -2,7 +2,7 @@ use crate::pubsub::dispatch;
 use arcdps_bindings::{cbtevent, Ag, AgOwned};
 use smol::Task;
 
-use crate::protos::eventdata::{CombatEvent, CombatMessage, Event, Actor, CombatType, ImGuiEvent};
+use crate::protos::eventdata::{CombatEvent, CombatMessage, Event, Actor, CombatType};
 
 
 pub fn cbt(
@@ -85,7 +85,6 @@ async fn cbt_with_type(
     //add_bytes(&mut message, ev, src, dst, skillname, id, revision);
     dispatch(protobuf::Message::write_to_bytes(&event).unwrap()).await;
 }
-
 
 fn get_actor_proto(actor: &AgOwned) -> Actor {
     let mut proto = Actor::new();

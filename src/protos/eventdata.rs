@@ -26,7 +26,7 @@
 #[derive(PartialEq,Clone,Default)]
 pub struct ImGuiEvent {
     // message fields
-    pub NotCharacteSelectionOrLoading: bool,
+    pub UiState: UiState,
     // special fields
     pub unknown_fields: ::protobuf::UnknownFields,
     pub cached_size: ::protobuf::CachedSize,
@@ -43,19 +43,19 @@ impl ImGuiEvent {
         ::std::default::Default::default()
     }
 
-    // bool NotCharacteSelectionOrLoading = 1;
+    // .UiState UiState = 1;
 
 
-    pub fn get_NotCharacteSelectionOrLoading(&self) -> bool {
-        self.NotCharacteSelectionOrLoading
+    pub fn get_UiState(&self) -> UiState {
+        self.UiState
     }
-    pub fn clear_NotCharacteSelectionOrLoading(&mut self) {
-        self.NotCharacteSelectionOrLoading = false;
+    pub fn clear_UiState(&mut self) {
+        self.UiState = UiState::Default;
     }
 
     // Param is passed by value, moved
-    pub fn set_NotCharacteSelectionOrLoading(&mut self, v: bool) {
-        self.NotCharacteSelectionOrLoading = v;
+    pub fn set_UiState(&mut self, v: UiState) {
+        self.UiState = v;
     }
 }
 
@@ -69,11 +69,7 @@ impl ::protobuf::Message for ImGuiEvent {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_bool()?;
-                    self.NotCharacteSelectionOrLoading = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.UiState, 1, &mut self.unknown_fields)?
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -87,8 +83,8 @@ impl ::protobuf::Message for ImGuiEvent {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if self.NotCharacteSelectionOrLoading != false {
-            my_size += 2;
+        if self.UiState != UiState::Default {
+            my_size += ::protobuf::rt::enum_size(1, self.UiState);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -96,8 +92,8 @@ impl ::protobuf::Message for ImGuiEvent {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::ProtobufResult<()> {
-        if self.NotCharacteSelectionOrLoading != false {
-            os.write_bool(1, self.NotCharacteSelectionOrLoading)?;
+        if self.UiState != UiState::Default {
+            os.write_enum(1, ::protobuf::ProtobufEnum::value(&self.UiState))?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -137,10 +133,10 @@ impl ::protobuf::Message for ImGuiEvent {
         static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::MessageDescriptor> = ::protobuf::rt::LazyV2::INIT;
         descriptor.get(|| {
             let mut fields = ::std::vec::Vec::new();
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
-                "NotCharacteSelectionOrLoading",
-                |m: &ImGuiEvent| { &m.NotCharacteSelectionOrLoading },
-                |m: &mut ImGuiEvent| { &mut m.NotCharacteSelectionOrLoading },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<UiState>>(
+                "UiState",
+                |m: &ImGuiEvent| { &m.UiState },
+                |m: &mut ImGuiEvent| { &mut m.UiState },
             ));
             ::protobuf::reflect::MessageDescriptor::new_pb_name::<ImGuiEvent>(
                 "ImGuiEvent",
@@ -158,7 +154,7 @@ impl ::protobuf::Message for ImGuiEvent {
 
 impl ::protobuf::Clear for ImGuiEvent {
     fn clear(&mut self) {
-        self.NotCharacteSelectionOrLoading = false;
+        self.UiState = UiState::Default;
         self.unknown_fields.clear();
     }
 }
@@ -2199,6 +2195,56 @@ impl ::protobuf::reflect::ProtobufValue for Event {
 }
 
 #[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum UiState {
+    Default = 0,
+    CharacterSelectionOrLoading = 1,
+}
+
+impl ::protobuf::ProtobufEnum for UiState {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<UiState> {
+        match value {
+            0 => ::std::option::Option::Some(UiState::Default),
+            1 => ::std::option::Option::Some(UiState::CharacterSelectionOrLoading),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [UiState] = &[
+            UiState::Default,
+            UiState::CharacterSelectionOrLoading,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<UiState>("UiState", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for UiState {
+}
+
+impl ::std::default::Default for UiState {
+    fn default() -> Self {
+        UiState::Default
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for UiState {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
 pub enum CombatType {
     Area = 1,
     Local = 2,
@@ -2250,44 +2296,45 @@ impl ::protobuf::reflect::ProtobufValue for CombatType {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x0feventdata.proto\"V\n\nImGuiEvent\x12F\n\x1dNotCharacteSelectionOrL\
-    oading\x18\x01\x20\x01(\x08R\x1dNotCharacteSelectionOrLoadingB\0:\0\"\
-    \x8c\x01\n\x05Actor\x12\x14\n\x04name\x18\x01\x20\x01(\tR\x04nameB\0\x12\
-    \x10\n\x02id\x18\x02\x20\x01(\rR\x02idB\0\x12\x14\n\x04prof\x18\x03\x20\
-    \x01(\rR\x04profB\0\x12\x16\n\x05elite\x18\x04\x20\x01(\rR\x05eliteB\0\
-    \x12\x15\n\x05self_\x18\x05\x20\x01(\rR\x04selfB\0\x12\x14\n\x04team\x18\
-    \x06\x20\x01(\rR\x04teamB\0:\0\"\xac\x06\n\x0bCombatEvent\x12\x14\n\x04t\
-    ime\x18\x01\x20\x01(\x04R\x04timeB\0\x12\x1d\n\tsrc_agent\x18\x02\x20\
-    \x01(\rR\x08srcAgentB\0\x12\x1d\n\tdst_agent\x18\x03\x20\x01(\rR\x08dstA\
-    gentB\0\x12\x16\n\x05value\x18\x04\x20\x01(\x05R\x05valueB\0\x12\x1b\n\
-    \x08buff_dmg\x18\x05\x20\x01(\x05R\x07buffDmgB\0\x12)\n\x0foverstack_val\
-    ue\x18\x06\x20\x01(\rR\x0eoverstackValueB\0\x12\x1a\n\x07skillid\x18\x07\
-    \x20\x01(\rR\x07skillidB\0\x12\x1f\n\nsrc_instid\x18\x08\x20\x01(\rR\tsr\
-    cInstidB\0\x12\x1f\n\ndst_instid\x18\t\x20\x01(\rR\tdstInstidB\0\x12,\n\
-    \x11src_master_instid\x18\n\x20\x01(\rR\x0fsrcMasterInstidB\0\x12\x12\n\
-    \x03iff\x18\x0b\x20\x01(\rR\x03iffB\0\x12\x14\n\x04buff\x18\x0c\x20\x01(\
-    \rR\x04buffB\0\x12\x18\n\x06result\x18\r\x20\x01(\rR\x06resultB\0\x12%\n\
-    \ris_activation\x18\x0e\x20\x01(\rR\x0cisActivationB\0\x12%\n\ris_buffre\
-    move\x18\x0f\x20\x01(\rR\x0cisBuffremoveB\0\x12\x1d\n\tis_ninety\x18\x10\
-    \x20\x01(\rR\x08isNinetyB\0\x12\x1b\n\x08is_fifty\x18\x11\x20\x01(\rR\
-    \x07isFiftyB\0\x12\x1d\n\tis_moving\x18\x12\x20\x01(\rR\x08isMovingB\0\
-    \x12'\n\x0eis_statechange\x18\x13\x20\x01(\rR\risStatechangeB\0\x12!\n\
-    \x0bis_flanking\x18\x14\x20\x01(\rR\nisFlankingB\0\x12\x1f\n\nis_shields\
-    \x18\x15\x20\x01(\rR\tisShieldsB\0\x12!\n\x0bis_offcycle\x18\x16\x20\x01\
-    (\rR\nisOffcycleB\0\x12\x16\n\x05pad61\x18\x17\x20\x01(\rR\x05pad61B\0\
-    \x12\x16\n\x05pad62\x18\x18\x20\x01(\rR\x05pad62B\0\x12\x16\n\x05pad63\
-    \x18\x19\x20\x01(\rR\x05pad63B\0\x12\x16\n\x05pad64\x18\x1a\x20\x01(\rR\
-    \x05pad64B\0:\0\"\x92\x02\n\rCombatMessage\x12.\n\x0bcombat_type\x18\x01\
-    \x20\x01(\x0e2\x0b.CombatTypeR\ncombatTypeB\0\x121\n\x0ccombat_event\x18\
-    \x02\x20\x01(\x0b2\x0c.CombatEventR\x0bcombatEventB\0\x12%\n\tsrc_actor\
-    \x18\x03\x20\x01(\x0b2\x06.ActorR\x08srcActorB\0\x12%\n\tdst_actor\x18\
-    \x04\x20\x01(\x0b2\x06.ActorR\x08dstActorB\0\x12\x1e\n\tskillname\x18\
-    \x05\x20\x01(\tR\tskillnameB\0\x12\x10\n\x02id\x18\x06\x20\x01(\x04R\x02\
-    idB\0\x12\x1c\n\x08revision\x18\x07\x20\x01(\x04R\x08revisionB\0:\0\"r\n\
-    \x05Event\x12.\n\x0bimgui_event\x18\x01\x20\x01(\x0b2\x0b.ImGuiEventR\ni\
-    mguiEventB\0\x127\n\x0ecombat_message\x18\x02\x20\x01(\x0b2\x0e.CombatMe\
-    ssageR\rcombatMessageB\0:\0*#\n\nCombatType\x12\x08\n\x04Area\x10\x01\
-    \x12\t\n\x05Local\x10\x02\x1a\0B\0b\x06proto3\
+    \n\x0feventdata.proto\"4\n\nImGuiEvent\x12$\n\x07UiState\x18\x01\x20\x01\
+    (\x0e2\x08.UiStateR\x07UiStateB\0:\0\"\x8c\x01\n\x05Actor\x12\x14\n\x04n\
+    ame\x18\x01\x20\x01(\tR\x04nameB\0\x12\x10\n\x02id\x18\x02\x20\x01(\rR\
+    \x02idB\0\x12\x14\n\x04prof\x18\x03\x20\x01(\rR\x04profB\0\x12\x16\n\x05\
+    elite\x18\x04\x20\x01(\rR\x05eliteB\0\x12\x15\n\x05self_\x18\x05\x20\x01\
+    (\rR\x04selfB\0\x12\x14\n\x04team\x18\x06\x20\x01(\rR\x04teamB\0:\0\"\
+    \xac\x06\n\x0bCombatEvent\x12\x14\n\x04time\x18\x01\x20\x01(\x04R\x04tim\
+    eB\0\x12\x1d\n\tsrc_agent\x18\x02\x20\x01(\rR\x08srcAgentB\0\x12\x1d\n\t\
+    dst_agent\x18\x03\x20\x01(\rR\x08dstAgentB\0\x12\x16\n\x05value\x18\x04\
+    \x20\x01(\x05R\x05valueB\0\x12\x1b\n\x08buff_dmg\x18\x05\x20\x01(\x05R\
+    \x07buffDmgB\0\x12)\n\x0foverstack_value\x18\x06\x20\x01(\rR\x0eoverstac\
+    kValueB\0\x12\x1a\n\x07skillid\x18\x07\x20\x01(\rR\x07skillidB\0\x12\x1f\
+    \n\nsrc_instid\x18\x08\x20\x01(\rR\tsrcInstidB\0\x12\x1f\n\ndst_instid\
+    \x18\t\x20\x01(\rR\tdstInstidB\0\x12,\n\x11src_master_instid\x18\n\x20\
+    \x01(\rR\x0fsrcMasterInstidB\0\x12\x12\n\x03iff\x18\x0b\x20\x01(\rR\x03i\
+    ffB\0\x12\x14\n\x04buff\x18\x0c\x20\x01(\rR\x04buffB\0\x12\x18\n\x06resu\
+    lt\x18\r\x20\x01(\rR\x06resultB\0\x12%\n\ris_activation\x18\x0e\x20\x01(\
+    \rR\x0cisActivationB\0\x12%\n\ris_buffremove\x18\x0f\x20\x01(\rR\x0cisBu\
+    ffremoveB\0\x12\x1d\n\tis_ninety\x18\x10\x20\x01(\rR\x08isNinetyB\0\x12\
+    \x1b\n\x08is_fifty\x18\x11\x20\x01(\rR\x07isFiftyB\0\x12\x1d\n\tis_movin\
+    g\x18\x12\x20\x01(\rR\x08isMovingB\0\x12'\n\x0eis_statechange\x18\x13\
+    \x20\x01(\rR\risStatechangeB\0\x12!\n\x0bis_flanking\x18\x14\x20\x01(\rR\
+    \nisFlankingB\0\x12\x1f\n\nis_shields\x18\x15\x20\x01(\rR\tisShieldsB\0\
+    \x12!\n\x0bis_offcycle\x18\x16\x20\x01(\rR\nisOffcycleB\0\x12\x16\n\x05p\
+    ad61\x18\x17\x20\x01(\rR\x05pad61B\0\x12\x16\n\x05pad62\x18\x18\x20\x01(\
+    \rR\x05pad62B\0\x12\x16\n\x05pad63\x18\x19\x20\x01(\rR\x05pad63B\0\x12\
+    \x16\n\x05pad64\x18\x1a\x20\x01(\rR\x05pad64B\0:\0\"\x92\x02\n\rCombatMe\
+    ssage\x12.\n\x0bcombat_type\x18\x01\x20\x01(\x0e2\x0b.CombatTypeR\ncomba\
+    tTypeB\0\x121\n\x0ccombat_event\x18\x02\x20\x01(\x0b2\x0c.CombatEventR\
+    \x0bcombatEventB\0\x12%\n\tsrc_actor\x18\x03\x20\x01(\x0b2\x06.ActorR\
+    \x08srcActorB\0\x12%\n\tdst_actor\x18\x04\x20\x01(\x0b2\x06.ActorR\x08ds\
+    tActorB\0\x12\x1e\n\tskillname\x18\x05\x20\x01(\tR\tskillnameB\0\x12\x10\
+    \n\x02id\x18\x06\x20\x01(\x04R\x02idB\0\x12\x1c\n\x08revision\x18\x07\
+    \x20\x01(\x04R\x08revisionB\0:\0\"r\n\x05Event\x12.\n\x0bimgui_event\x18\
+    \x01\x20\x01(\x0b2\x0b.ImGuiEventR\nimguiEventB\0\x127\n\x0ecombat_messa\
+    ge\x18\x02\x20\x01(\x0b2\x0e.CombatMessageR\rcombatMessageB\0:\0*9\n\x07\
+    UiState\x12\x0b\n\x07Default\x10\0\x12\x1f\n\x1bCharacterSelectionOrLoad\
+    ing\x10\x01\x1a\0*#\n\nCombatType\x12\x08\n\x04Area\x10\x01\x12\t\n\x05L\
+    ocal\x10\x02\x1a\0B\0b\x06proto3\
 ";
 
 static file_descriptor_proto_lazy: ::protobuf::rt::LazyV2<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::rt::LazyV2::INIT;

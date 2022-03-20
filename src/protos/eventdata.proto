@@ -1,7 +1,12 @@
 syntax = "proto3";
 
 message ImGuiEvent {
-    bool NotCharacteSelectionOrLoading = 1;
+    UiState UiState = 1;
+}
+
+enum UiState {
+    Default = 0;
+    CharacterSelectionOrLoading = 1;
 }
 
 enum CombatType {
