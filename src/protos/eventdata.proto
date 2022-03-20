@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+message ImGuiEvent {
+    bool NotCharacteSelectionOrLoading = 1;
+}
+
+enum CombatType {
+    Area = 1;
+    Local = 2;
+}
+
+message Actor {
+    string name = 1;
+    uint32 id = 2;
+    uint32 prof = 3;
+    uint32 elite = 4;
+    uint32 self_ = 5;
+    uint32 team = 6;
+}
+
+message CombatEvent {
+    uint64 time = 1;
+    uint32 src_agent =2;
+    uint32 dst_agent =3;
+    int32 value =4;
+    int32 buff_dmg =5;
+    uint32 overstack_value =6;
+    uint32 skillid =7;
+    uint32 src_instid = 8;
+    uint32 dst_instid = 9;
+    uint32 src_master_instid = 10;
+    uint32 iff = 11;
+    uint32 buff = 12;
+    uint32 result = 13;
+    uint32 is_activation = 14;
+    uint32 is_buffremove = 15;
+    uint32 is_ninety = 16;
+    uint32 is_fifty = 17;
+    uint32 is_moving = 18;
+    uint32 is_statechange = 19;
+    uint32 is_flanking = 20;
+    uint32 is_shields = 21;
+    uint32 is_offcycle = 22;
+    uint32 pad61 = 23;
+    uint32 pad62 = 24;
+    uint32 pad63 = 25;
+    uint32 pad64 = 26;
+}
+
+message CombatMessage {
+    CombatType combat_type = 1;
+    CombatEvent combat_event = 2;
+    Actor src_actor = 3;
+    Actor dst_actor = 4;
+    string skillname = 5;
+    uint64 id = 6;
+    uint64 revision = 7;
+}
+
+message Event {
+    ImGuiEvent imgui_event = 1;
+    CombatMessage combat_message = 2;
+}

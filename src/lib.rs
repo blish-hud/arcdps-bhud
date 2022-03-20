@@ -2,6 +2,7 @@ mod arcdps;
 mod executor;
 mod exports;
 mod pubsub;
+mod protos;
 
 use winapi::shared::minwindef::LPVOID;
 

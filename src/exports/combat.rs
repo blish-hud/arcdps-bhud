@@ -2,6 +2,9 @@ use crate::pubsub::dispatch;
 use arcdps_bindings::{cbtevent, Ag, AgOwned};
 use smol::Task;
 
+use crate::protos::eventdata::{CombatEvent, CombatMessage, Event, Actor, CombatType, ImGuiEvent};
+
+
 pub fn cbt(
     ev: Option<&cbtevent>,
     src: Option<&Ag>,
@@ -54,111 +57,77 @@ async fn cbt_with_type(
     revision: u64,
     indicator: u8,
 ) {
-    let mut message = Vec::new();
-    message.push(indicator); // indicator for local/area combat message
-    add_bytes(&mut message, ev, src, dst, skillname, id, revision);
-    dispatch(message).await;
-}
-
-fn add_bytes(
-    message: &mut Vec<u8>,
-    ev: Option<cbtevent>,
-    src: Option<AgOwned>,
-    dst: Option<AgOwned>,
-    skillname: Option<&str>,
-    id: u64,
-    revision: u64,
-) {
-    let mut messages = 0;
-    if let Some(ev) = ev {
-        messages |= 1;
-        let mut bytes = get_ev_bytes(&ev);
-        message.append(&mut bytes);
-    };
-    if let Some(ag) = src {
-        messages |= 1 << 1;
-        let mut bytes = get_ag_bytes(&ag);
-        message.append(&mut bytes);
-    };
-    if let Some(ag) = dst {
-        messages |= 1 << 2;
-        let mut bytes = get_ag_bytes(&ag);
-        message.append(&mut bytes);
-    };
-    if let Some(name) = skillname {
-        messages |= 1 << 3;
-        let bytes = name.as_bytes();
-        let mut bytes = [&bytes.len().to_le_bytes(), bytes].concat();
-        message.append(&mut bytes);
-    };
-    message.insert(1, messages);
-    message.append(&mut id.to_le_bytes().to_vec());
-    message.append(&mut revision.to_le_bytes().to_vec());
-}
-
-fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {
-    ev.time
-        .to_le_bytes()
-        .iter()
-        .chain(ev.src_agent.to_le_bytes().iter())
-        .chain(ev.dst_agent.to_le_bytes().iter())
-        .chain(ev.value.to_le_bytes().iter())
-        .chain(ev.buff_dmg.to_le_bytes().iter())
-        .chain(ev.overstack_value.to_le_bytes().iter())
-        .chain(ev.skillid.to_le_bytes().iter())
-        .chain(ev.src_instid.to_le_bytes().iter())
-        .chain(ev.dst_instid.to_le_bytes().iter())
-        .chain(ev.src_master_instid.to_le_bytes().iter())
-        .chain(ev.dst_master_instid.to_le_bytes().iter())
-        .chain(ev.iff.to_le_bytes().iter())
-        .chain(ev.buff.to_le_bytes().iter())
-        .chain(ev.result.to_le_bytes().iter())
-        .chain(ev.is_activation.to_le_bytes().iter())
-        .chain(ev.is_buffremove.to_le_bytes().iter())
-        .chain(ev.is_ninety.to_le_bytes().iter())
-        .chain(ev.is_fifty.to_le_bytes().iter())
-        .chain(ev.is_moving.to_le_bytes().iter())
-        .chain(ev.is_statechange.to_le_bytes().iter())
-        .chain(ev.is_flanking.to_le_bytes().iter())
-        .chain(ev.is_shields.to_le_bytes().iter())
-        .chain(ev.is_offcycle.to_le_bytes().iter())
-        .chain(ev.pad61.to_le_bytes().iter())
-        .chain(ev.pad62.to_le_bytes().iter())
-        .chain(ev.pad63.to_le_bytes().iter())
-        .chain(ev.pad64.to_le_bytes().iter())
-        .cloned()
-        .collect::<Vec<u8>>()
-}
-
-fn get_ag_bytes(ag: &AgOwned) -> Vec<u8> {
-    let (string_length, name_bytes) = if let Some(name) = &ag.name {
-        let bytes = name.as_bytes();
-        (bytes.len(), Some(bytes))
-    } else {
-        (0, None)
-    };
-    if let Some(name_bytes) = name_bytes {
-        string_length
-            .to_le_bytes()
-            .iter()
-            .chain(name_bytes.iter())
-            .chain(ag.id.to_le_bytes().iter())
-            .chain(ag.prof.to_le_bytes().iter())
-            .chain(ag.elite.to_le_bytes().iter())
-            .chain(ag.self_.to_le_bytes().iter())
-            .chain(ag.team.to_le_bytes().iter())
-            .cloned()
-            .collect()
-    } else {
-        string_length
-            .to_le_bytes()
-            .iter()
-            .chain(ag.id.to_le_bytes().iter())
-            .chain(ag.prof.to_le_bytes().iter())
-            .chain(ag.elite.to_le_bytes().iter())
-            .chain(ag.self_.to_le_bytes().iter())
-            .chain(ag.team.to_le_bytes().iter())
-            .cloned()
-            .collect()
+    let mut event = Event::new();
+    let mut combatmessage = CombatMessage::new();
+    if ev.is_some() {
+        combatmessage.set_combat_event(get_ev_proto(&ev.unwrap()));
     }
+    if indicator == 2 {
+        combatmessage.set_combat_type(CombatType::Area);
+    } else {
+        combatmessage.set_combat_type(CombatType::Local);
+    }
+    
+    if src.is_some() {
+        combatmessage.set_src_actor(get_actor_proto(&src.unwrap()));
+    }
+
+    if dst.is_some() {
+        combatmessage.set_dst_actor(get_actor_proto(&dst.unwrap()));
+    }
+
+    combatmessage.skillname  = skillname.unwrap_or("").to_string();
+    combatmessage.id = id;
+    combatmessage.revision = revision;
+
+    event.set_combat_message(combatmessage);
+    //message.push(indicator); // indicator for local/area combat message
+    //add_bytes(&mut message, ev, src, dst, skillname, id, revision);
+    dispatch(protobuf::Message::write_to_bytes(&event).unwrap()).await;
+}
+
+
+fn get_actor_proto(actor: &AgOwned) -> Actor {
+    let mut proto = Actor::new();
+    if actor.name.is_some() {
+        proto.name = actor.name.as_ref().unwrap().to_string();
+    };
+    proto.self_ = actor.self_;
+    proto.id = actor.id as u32;
+    proto.prof = actor.prof;
+    proto.elite = actor.elite;
+    
+    proto
+}
+
+fn get_ev_proto(ev: &cbtevent) -> CombatEvent {
+    let mut proto = CombatEvent::new();
+    proto.time = ev.time;
+    proto.src_agent = ev.src_agent as u32;
+    proto.dst_agent = ev.dst_agent as u32;
+    proto.value = ev.value;
+    proto.buff_dmg = ev.buff_dmg;
+    proto.overstack_value = ev.overstack_value;
+    proto.skillid = ev.skillid;
+    proto.src_instid = ev.src_instid as u32;
+    proto.dst_instid = ev.dst_instid as u32;
+    proto.src_master_instid =  ev.src_master_instid as u32;
+    proto.iff =  ev.iff as u32;
+    proto.buff =  ev.buff as u32;
+    proto.result =  ev.result as u32;
+    proto.is_activation =  ev.is_activation as u32;
+    proto.is_buffremove =  ev.is_buffremove as u32;
+    proto.is_ninety =  ev.is_ninety as u32;
+    proto.is_fifty =  ev.is_fifty as u32;
+    proto.is_moving =  ev.is_moving as u32;
+    proto.is_statechange =  ev.is_statechange as u32;
+    proto.is_flanking =  ev.is_flanking as u32;
+    proto.is_shields =  ev.is_shields as u32;
+    proto.is_offcycle =  ev.is_offcycle as u32;
+    proto.pad61 =  ev.pad61 as u32;
+    proto.pad62 =  ev.pad62 as u32;
+    proto.pad63 =  ev.pad63 as u32;
+    proto.pad64 =  ev.pad64 as u32;
+
+    proto
 }

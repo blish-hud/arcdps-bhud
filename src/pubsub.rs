@@ -48,7 +48,7 @@ async fn setup_pubsub() -> Result<(), std::io::Error> {
 
     // Create a listener.
     let listener =
-        Async::<TcpListener>::bind(format!("127.0.0.1:{}", get_port(std::process::id())))?;
+        Async::<TcpListener>::bind("127.0.0.1:12112")?;
 
     // Accept clients in a loop.
     loop {
@@ -63,8 +63,4 @@ async fn setup_pubsub() -> Result<(), std::io::Error> {
         }
     }
     Ok(())
-}
-
-fn get_port(pid: u32) -> u16 {
-    pid as u16 | 1 << 14 | 1 << 15
 }
