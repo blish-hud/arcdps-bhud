@@ -176,9 +176,9 @@ pub struct Actor {
     // message fields
     pub name: ::std::string::String,
     pub id: u32,
-    pub prof: u32,
-    pub elite: u32,
-    pub self_: u32,
+    pub Profession: u32,
+    pub EliteSpec: u32,
+    pub is_player: bool,
     pub team: u32,
     // special fields
     pub unknown_fields: ::protobuf::UnknownFields,
@@ -237,49 +237,49 @@ impl Actor {
         self.id = v;
     }
 
-    // uint32 prof = 3;
+    // uint32 Profession = 3;
 
 
-    pub fn get_prof(&self) -> u32 {
-        self.prof
+    pub fn get_Profession(&self) -> u32 {
+        self.Profession
     }
-    pub fn clear_prof(&mut self) {
-        self.prof = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_prof(&mut self, v: u32) {
-        self.prof = v;
-    }
-
-    // uint32 elite = 4;
-
-
-    pub fn get_elite(&self) -> u32 {
-        self.elite
-    }
-    pub fn clear_elite(&mut self) {
-        self.elite = 0;
+    pub fn clear_Profession(&mut self) {
+        self.Profession = 0;
     }
 
     // Param is passed by value, moved
-    pub fn set_elite(&mut self, v: u32) {
-        self.elite = v;
+    pub fn set_Profession(&mut self, v: u32) {
+        self.Profession = v;
     }
 
-    // uint32 self_ = 5;
+    // uint32 EliteSpec = 4;
 
 
-    pub fn get_self_(&self) -> u32 {
-        self.self_
+    pub fn get_EliteSpec(&self) -> u32 {
+        self.EliteSpec
     }
-    pub fn clear_self_(&mut self) {
-        self.self_ = 0;
+    pub fn clear_EliteSpec(&mut self) {
+        self.EliteSpec = 0;
     }
 
     // Param is passed by value, moved
-    pub fn set_self_(&mut self, v: u32) {
-        self.self_ = v;
+    pub fn set_EliteSpec(&mut self, v: u32) {
+        self.EliteSpec = v;
+    }
+
+    // bool is_player = 5;
+
+
+    pub fn get_is_player(&self) -> bool {
+        self.is_player
+    }
+    pub fn clear_is_player(&mut self) {
+        self.is_player = false;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_is_player(&mut self, v: bool) {
+        self.is_player = v;
     }
 
     // uint32 team = 6;
@@ -322,21 +322,21 @@ impl ::protobuf::Message for Actor {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
                     let tmp = is.read_uint32()?;
-                    self.prof = tmp;
+                    self.Profession = tmp;
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
                     let tmp = is.read_uint32()?;
-                    self.elite = tmp;
+                    self.EliteSpec = tmp;
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
-                    self.self_ = tmp;
+                    let tmp = is.read_bool()?;
+                    self.is_player = tmp;
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -363,14 +363,14 @@ impl ::protobuf::Message for Actor {
         if self.id != 0 {
             my_size += ::protobuf::rt::value_size(2, self.id, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.prof != 0 {
-            my_size += ::protobuf::rt::value_size(3, self.prof, ::protobuf::wire_format::WireTypeVarint);
+        if self.Profession != 0 {
+            my_size += ::protobuf::rt::value_size(3, self.Profession, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.elite != 0 {
-            my_size += ::protobuf::rt::value_size(4, self.elite, ::protobuf::wire_format::WireTypeVarint);
+        if self.EliteSpec != 0 {
+            my_size += ::protobuf::rt::value_size(4, self.EliteSpec, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.self_ != 0 {
-            my_size += ::protobuf::rt::value_size(5, self.self_, ::protobuf::wire_format::WireTypeVarint);
+        if self.is_player != false {
+            my_size += 2;
         }
         if self.team != 0 {
             my_size += ::protobuf::rt::value_size(6, self.team, ::protobuf::wire_format::WireTypeVarint);
@@ -387,14 +387,14 @@ impl ::protobuf::Message for Actor {
         if self.id != 0 {
             os.write_uint32(2, self.id)?;
         }
-        if self.prof != 0 {
-            os.write_uint32(3, self.prof)?;
+        if self.Profession != 0 {
+            os.write_uint32(3, self.Profession)?;
         }
-        if self.elite != 0 {
-            os.write_uint32(4, self.elite)?;
+        if self.EliteSpec != 0 {
+            os.write_uint32(4, self.EliteSpec)?;
         }
-        if self.self_ != 0 {
-            os.write_uint32(5, self.self_)?;
+        if self.is_player != false {
+            os.write_bool(5, self.is_player)?;
         }
         if self.team != 0 {
             os.write_uint32(6, self.team)?;
@@ -448,19 +448,19 @@ impl ::protobuf::Message for Actor {
                 |m: &mut Actor| { &mut m.id },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "prof",
-                |m: &Actor| { &m.prof },
-                |m: &mut Actor| { &mut m.prof },
+                "Profession",
+                |m: &Actor| { &m.Profession },
+                |m: &mut Actor| { &mut m.Profession },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "elite",
-                |m: &Actor| { &m.elite },
-                |m: &mut Actor| { &mut m.elite },
+                "EliteSpec",
+                |m: &Actor| { &m.EliteSpec },
+                |m: &mut Actor| { &mut m.EliteSpec },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "self_",
-                |m: &Actor| { &m.self_ },
-                |m: &mut Actor| { &mut m.self_ },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "is_player",
+                |m: &Actor| { &m.is_player },
+                |m: &mut Actor| { &mut m.is_player },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
                 "team",
@@ -485,9 +485,9 @@ impl ::protobuf::Clear for Actor {
     fn clear(&mut self) {
         self.name.clear();
         self.id = 0;
-        self.prof = 0;
-        self.elite = 0;
-        self.self_ = 0;
+        self.Profession = 0;
+        self.EliteSpec = 0;
+        self.is_player = false;
         self.team = 0;
         self.unknown_fields.clear();
     }
@@ -509,31 +509,41 @@ impl ::protobuf::reflect::ProtobufValue for Actor {
 pub struct CombatEvent {
     // message fields
     pub time: u64,
-    pub src_agent: u32,
-    pub dst_agent: u32,
-    pub value: i32,
-    pub buff_dmg: i32,
-    pub overstack_value: u32,
+    pub damage: i32,
+    pub shield_damage: u32,
     pub skillid: u32,
     pub src_instid: u32,
     pub dst_instid: u32,
     pub src_master_instid: u32,
-    pub iff: u32,
-    pub buff: u32,
-    pub result: u32,
-    pub is_activation: u32,
-    pub is_buffremove: u32,
-    pub is_ninety: u32,
-    pub is_fifty: u32,
-    pub is_moving: u32,
-    pub is_statechange: u32,
-    pub is_flanking: u32,
-    pub is_shields: u32,
+    pub friend_or_foe: Affinity,
+    pub result: CombatResult,
+    pub activation: CombatActivation,
+    pub buffremove: BuffRemoveType,
+    pub src_hp_over_90: bool,
+    pub dst_hp_over_50: bool,
+    pub src_is_moving: bool,
+    pub statechange: StateChange,
+    pub is_flanking: bool,
+    pub buff_added_active: bool,
     pub is_offcycle: u32,
     pub pad61: u32,
     pub pad62: u32,
     pub pad63: u32,
     pub pad64: u32,
+    pub target_downed: bool,
+    pub buff_stacks_removed: i32,
+    pub buff_duration: i32,
+    pub tag_id: u32,
+    pub buff_stackid: u32,
+    pub new_team_id: u32,
+    pub reward_id: u32,
+    pub reward_type: u32,
+    pub weapon_set: WeaponSet,
+    pub time_in_animation: u32,
+    pub time_in_animation_scaled: u32,
+    pub EventType: EventType,
+    pub buff_damage_result: BuffDamageResult,
+    pub buff_type: BuffType,
     // special fields
     pub unknown_fields: ::protobuf::UnknownFields,
     pub cached_size: ::protobuf::CachedSize,
@@ -565,79 +575,34 @@ impl CombatEvent {
         self.time = v;
     }
 
-    // uint32 src_agent = 2;
+    // int32 damage = 4;
 
 
-    pub fn get_src_agent(&self) -> u32 {
-        self.src_agent
+    pub fn get_damage(&self) -> i32 {
+        self.damage
     }
-    pub fn clear_src_agent(&mut self) {
-        self.src_agent = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_src_agent(&mut self, v: u32) {
-        self.src_agent = v;
-    }
-
-    // uint32 dst_agent = 3;
-
-
-    pub fn get_dst_agent(&self) -> u32 {
-        self.dst_agent
-    }
-    pub fn clear_dst_agent(&mut self) {
-        self.dst_agent = 0;
+    pub fn clear_damage(&mut self) {
+        self.damage = 0;
     }
 
     // Param is passed by value, moved
-    pub fn set_dst_agent(&mut self, v: u32) {
-        self.dst_agent = v;
+    pub fn set_damage(&mut self, v: i32) {
+        self.damage = v;
     }
 
-    // int32 value = 4;
+    // uint32 shield_damage = 6;
 
 
-    pub fn get_value(&self) -> i32 {
-        self.value
+    pub fn get_shield_damage(&self) -> u32 {
+        self.shield_damage
     }
-    pub fn clear_value(&mut self) {
-        self.value = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_value(&mut self, v: i32) {
-        self.value = v;
-    }
-
-    // int32 buff_dmg = 5;
-
-
-    pub fn get_buff_dmg(&self) -> i32 {
-        self.buff_dmg
-    }
-    pub fn clear_buff_dmg(&mut self) {
-        self.buff_dmg = 0;
+    pub fn clear_shield_damage(&mut self) {
+        self.shield_damage = 0;
     }
 
     // Param is passed by value, moved
-    pub fn set_buff_dmg(&mut self, v: i32) {
-        self.buff_dmg = v;
-    }
-
-    // uint32 overstack_value = 6;
-
-
-    pub fn get_overstack_value(&self) -> u32 {
-        self.overstack_value
-    }
-    pub fn clear_overstack_value(&mut self) {
-        self.overstack_value = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_overstack_value(&mut self, v: u32) {
-        self.overstack_value = v;
+    pub fn set_shield_damage(&mut self, v: u32) {
+        self.shield_damage = v;
     }
 
     // uint32 skillid = 7;
@@ -700,169 +665,154 @@ impl CombatEvent {
         self.src_master_instid = v;
     }
 
-    // uint32 iff = 11;
+    // .Affinity friend_or_foe = 11;
 
 
-    pub fn get_iff(&self) -> u32 {
-        self.iff
+    pub fn get_friend_or_foe(&self) -> Affinity {
+        self.friend_or_foe
     }
-    pub fn clear_iff(&mut self) {
-        self.iff = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_iff(&mut self, v: u32) {
-        self.iff = v;
-    }
-
-    // uint32 buff = 12;
-
-
-    pub fn get_buff(&self) -> u32 {
-        self.buff
-    }
-    pub fn clear_buff(&mut self) {
-        self.buff = 0;
+    pub fn clear_friend_or_foe(&mut self) {
+        self.friend_or_foe = Affinity::AF_Unparsed;
     }
 
     // Param is passed by value, moved
-    pub fn set_buff(&mut self, v: u32) {
-        self.buff = v;
+    pub fn set_friend_or_foe(&mut self, v: Affinity) {
+        self.friend_or_foe = v;
     }
 
-    // uint32 result = 13;
+    // .CombatResult result = 13;
 
 
-    pub fn get_result(&self) -> u32 {
+    pub fn get_result(&self) -> CombatResult {
         self.result
     }
     pub fn clear_result(&mut self) {
-        self.result = 0;
+        self.result = CombatResult::Normal;
     }
 
     // Param is passed by value, moved
-    pub fn set_result(&mut self, v: u32) {
+    pub fn set_result(&mut self, v: CombatResult) {
         self.result = v;
     }
 
-    // uint32 is_activation = 14;
+    // .CombatActivation activation = 14;
 
 
-    pub fn get_is_activation(&self) -> u32 {
-        self.is_activation
+    pub fn get_activation(&self) -> CombatActivation {
+        self.activation
     }
-    pub fn clear_is_activation(&mut self) {
-        self.is_activation = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_is_activation(&mut self, v: u32) {
-        self.is_activation = v;
-    }
-
-    // uint32 is_buffremove = 15;
-
-
-    pub fn get_is_buffremove(&self) -> u32 {
-        self.is_buffremove
-    }
-    pub fn clear_is_buffremove(&mut self) {
-        self.is_buffremove = 0;
+    pub fn clear_activation(&mut self) {
+        self.activation = CombatActivation::CA_NONE;
     }
 
     // Param is passed by value, moved
-    pub fn set_is_buffremove(&mut self, v: u32) {
-        self.is_buffremove = v;
+    pub fn set_activation(&mut self, v: CombatActivation) {
+        self.activation = v;
     }
 
-    // uint32 is_ninety = 16;
+    // .BuffRemoveType buffremove = 15;
 
 
-    pub fn get_is_ninety(&self) -> u32 {
-        self.is_ninety
+    pub fn get_buffremove(&self) -> BuffRemoveType {
+        self.buffremove
     }
-    pub fn clear_is_ninety(&mut self) {
-        self.is_ninety = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_is_ninety(&mut self, v: u32) {
-        self.is_ninety = v;
-    }
-
-    // uint32 is_fifty = 17;
-
-
-    pub fn get_is_fifty(&self) -> u32 {
-        self.is_fifty
-    }
-    pub fn clear_is_fifty(&mut self) {
-        self.is_fifty = 0;
+    pub fn clear_buffremove(&mut self) {
+        self.buffremove = BuffRemoveType::BR_None;
     }
 
     // Param is passed by value, moved
-    pub fn set_is_fifty(&mut self, v: u32) {
-        self.is_fifty = v;
+    pub fn set_buffremove(&mut self, v: BuffRemoveType) {
+        self.buffremove = v;
     }
 
-    // uint32 is_moving = 18;
+    // bool src_hp_over_90 = 16;
 
 
-    pub fn get_is_moving(&self) -> u32 {
-        self.is_moving
+    pub fn get_src_hp_over_90(&self) -> bool {
+        self.src_hp_over_90
     }
-    pub fn clear_is_moving(&mut self) {
-        self.is_moving = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_is_moving(&mut self, v: u32) {
-        self.is_moving = v;
-    }
-
-    // uint32 is_statechange = 19;
-
-
-    pub fn get_is_statechange(&self) -> u32 {
-        self.is_statechange
-    }
-    pub fn clear_is_statechange(&mut self) {
-        self.is_statechange = 0;
+    pub fn clear_src_hp_over_90(&mut self) {
+        self.src_hp_over_90 = false;
     }
 
     // Param is passed by value, moved
-    pub fn set_is_statechange(&mut self, v: u32) {
-        self.is_statechange = v;
+    pub fn set_src_hp_over_90(&mut self, v: bool) {
+        self.src_hp_over_90 = v;
     }
 
-    // uint32 is_flanking = 20;
+    // bool dst_hp_over_50 = 17;
 
 
-    pub fn get_is_flanking(&self) -> u32 {
+    pub fn get_dst_hp_over_50(&self) -> bool {
+        self.dst_hp_over_50
+    }
+    pub fn clear_dst_hp_over_50(&mut self) {
+        self.dst_hp_over_50 = false;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_dst_hp_over_50(&mut self, v: bool) {
+        self.dst_hp_over_50 = v;
+    }
+
+    // bool src_is_moving = 18;
+
+
+    pub fn get_src_is_moving(&self) -> bool {
+        self.src_is_moving
+    }
+    pub fn clear_src_is_moving(&mut self) {
+        self.src_is_moving = false;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_src_is_moving(&mut self, v: bool) {
+        self.src_is_moving = v;
+    }
+
+    // .StateChange statechange = 19;
+
+
+    pub fn get_statechange(&self) -> StateChange {
+        self.statechange
+    }
+    pub fn clear_statechange(&mut self) {
+        self.statechange = StateChange::NONE;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_statechange(&mut self, v: StateChange) {
+        self.statechange = v;
+    }
+
+    // bool is_flanking = 20;
+
+
+    pub fn get_is_flanking(&self) -> bool {
         self.is_flanking
     }
     pub fn clear_is_flanking(&mut self) {
-        self.is_flanking = 0;
+        self.is_flanking = false;
     }
 
     // Param is passed by value, moved
-    pub fn set_is_flanking(&mut self, v: u32) {
+    pub fn set_is_flanking(&mut self, v: bool) {
         self.is_flanking = v;
     }
 
-    // uint32 is_shields = 21;
+    // bool buff_added_active = 21;
 
 
-    pub fn get_is_shields(&self) -> u32 {
-        self.is_shields
+    pub fn get_buff_added_active(&self) -> bool {
+        self.buff_added_active
     }
-    pub fn clear_is_shields(&mut self) {
-        self.is_shields = 0;
+    pub fn clear_buff_added_active(&mut self) {
+        self.buff_added_active = false;
     }
 
     // Param is passed by value, moved
-    pub fn set_is_shields(&mut self, v: u32) {
-        self.is_shields = v;
+    pub fn set_buff_added_active(&mut self, v: bool) {
+        self.buff_added_active = v;
     }
 
     // uint32 is_offcycle = 22;
@@ -939,6 +889,216 @@ impl CombatEvent {
     pub fn set_pad64(&mut self, v: u32) {
         self.pad64 = v;
     }
+
+    // bool target_downed = 27;
+
+
+    pub fn get_target_downed(&self) -> bool {
+        self.target_downed
+    }
+    pub fn clear_target_downed(&mut self) {
+        self.target_downed = false;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_target_downed(&mut self, v: bool) {
+        self.target_downed = v;
+    }
+
+    // int32 buff_stacks_removed = 28;
+
+
+    pub fn get_buff_stacks_removed(&self) -> i32 {
+        self.buff_stacks_removed
+    }
+    pub fn clear_buff_stacks_removed(&mut self) {
+        self.buff_stacks_removed = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_buff_stacks_removed(&mut self, v: i32) {
+        self.buff_stacks_removed = v;
+    }
+
+    // int32 buff_duration = 29;
+
+
+    pub fn get_buff_duration(&self) -> i32 {
+        self.buff_duration
+    }
+    pub fn clear_buff_duration(&mut self) {
+        self.buff_duration = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_buff_duration(&mut self, v: i32) {
+        self.buff_duration = v;
+    }
+
+    // uint32 tag_id = 30;
+
+
+    pub fn get_tag_id(&self) -> u32 {
+        self.tag_id
+    }
+    pub fn clear_tag_id(&mut self) {
+        self.tag_id = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_tag_id(&mut self, v: u32) {
+        self.tag_id = v;
+    }
+
+    // uint32 buff_stackid = 31;
+
+
+    pub fn get_buff_stackid(&self) -> u32 {
+        self.buff_stackid
+    }
+    pub fn clear_buff_stackid(&mut self) {
+        self.buff_stackid = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_buff_stackid(&mut self, v: u32) {
+        self.buff_stackid = v;
+    }
+
+    // uint32 new_team_id = 32;
+
+
+    pub fn get_new_team_id(&self) -> u32 {
+        self.new_team_id
+    }
+    pub fn clear_new_team_id(&mut self) {
+        self.new_team_id = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_new_team_id(&mut self, v: u32) {
+        self.new_team_id = v;
+    }
+
+    // uint32 reward_id = 33;
+
+
+    pub fn get_reward_id(&self) -> u32 {
+        self.reward_id
+    }
+    pub fn clear_reward_id(&mut self) {
+        self.reward_id = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_reward_id(&mut self, v: u32) {
+        self.reward_id = v;
+    }
+
+    // uint32 reward_type = 34;
+
+
+    pub fn get_reward_type(&self) -> u32 {
+        self.reward_type
+    }
+    pub fn clear_reward_type(&mut self) {
+        self.reward_type = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_reward_type(&mut self, v: u32) {
+        self.reward_type = v;
+    }
+
+    // .WeaponSet weapon_set = 35;
+
+
+    pub fn get_weapon_set(&self) -> WeaponSet {
+        self.weapon_set
+    }
+    pub fn clear_weapon_set(&mut self) {
+        self.weapon_set = WeaponSet::WS_Unparsed;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_weapon_set(&mut self, v: WeaponSet) {
+        self.weapon_set = v;
+    }
+
+    // uint32 time_in_animation = 36;
+
+
+    pub fn get_time_in_animation(&self) -> u32 {
+        self.time_in_animation
+    }
+    pub fn clear_time_in_animation(&mut self) {
+        self.time_in_animation = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_time_in_animation(&mut self, v: u32) {
+        self.time_in_animation = v;
+    }
+
+    // uint32 time_in_animation_scaled = 37;
+
+
+    pub fn get_time_in_animation_scaled(&self) -> u32 {
+        self.time_in_animation_scaled
+    }
+    pub fn clear_time_in_animation_scaled(&mut self) {
+        self.time_in_animation_scaled = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_time_in_animation_scaled(&mut self, v: u32) {
+        self.time_in_animation_scaled = v;
+    }
+
+    // .EventType EventType = 38;
+
+
+    pub fn get_EventType(&self) -> EventType {
+        self.EventType
+    }
+    pub fn clear_EventType(&mut self) {
+        self.EventType = EventType::None;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_EventType(&mut self, v: EventType) {
+        self.EventType = v;
+    }
+
+    // .BuffDamageResult buff_damage_result = 39;
+
+
+    pub fn get_buff_damage_result(&self) -> BuffDamageResult {
+        self.buff_damage_result
+    }
+    pub fn clear_buff_damage_result(&mut self) {
+        self.buff_damage_result = BuffDamageResult::BD_Unparsed;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_buff_damage_result(&mut self, v: BuffDamageResult) {
+        self.buff_damage_result = v;
+    }
+
+    // .BuffType buff_type = 40;
+
+
+    pub fn get_buff_type(&self) -> BuffType {
+        self.buff_type
+    }
+    pub fn clear_buff_type(&mut self) {
+        self.buff_type = BuffType::BT_NONE;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_buff_type(&mut self, v: BuffType) {
+        self.buff_type = v;
+    }
 }
 
 impl ::protobuf::Message for CombatEvent {
@@ -957,40 +1117,19 @@ impl ::protobuf::Message for CombatEvent {
                     let tmp = is.read_uint64()?;
                     self.time = tmp;
                 },
-                2 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.src_agent = tmp;
-                },
-                3 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.dst_agent = tmp;
-                },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
                     let tmp = is.read_int32()?;
-                    self.value = tmp;
-                },
-                5 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_int32()?;
-                    self.buff_dmg = tmp;
+                    self.damage = tmp;
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
                     let tmp = is.read_uint32()?;
-                    self.overstack_value = tmp;
+                    self.shield_damage = tmp;
                 },
                 7 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -1021,81 +1160,54 @@ impl ::protobuf::Message for CombatEvent {
                     self.src_master_instid = tmp;
                 },
                 11 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.iff = tmp;
-                },
-                12 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.buff = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.friend_or_foe, 11, &mut self.unknown_fields)?
                 },
                 13 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.result = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.result, 13, &mut self.unknown_fields)?
                 },
                 14 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.is_activation = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.activation, 14, &mut self.unknown_fields)?
                 },
                 15 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.is_buffremove = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.buffremove, 15, &mut self.unknown_fields)?
                 },
                 16 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
-                    self.is_ninety = tmp;
+                    let tmp = is.read_bool()?;
+                    self.src_hp_over_90 = tmp;
                 },
                 17 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
-                    self.is_fifty = tmp;
+                    let tmp = is.read_bool()?;
+                    self.dst_hp_over_50 = tmp;
                 },
                 18 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
-                    self.is_moving = tmp;
+                    let tmp = is.read_bool()?;
+                    self.src_is_moving = tmp;
                 },
                 19 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint32()?;
-                    self.is_statechange = tmp;
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.statechange, 19, &mut self.unknown_fields)?
                 },
                 20 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
+                    let tmp = is.read_bool()?;
                     self.is_flanking = tmp;
                 },
                 21 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    let tmp = is.read_uint32()?;
-                    self.is_shields = tmp;
+                    let tmp = is.read_bool()?;
+                    self.buff_added_active = tmp;
                 },
                 22 => {
                     if wire_type != ::protobuf::wire_format::WireTypeVarint {
@@ -1132,6 +1244,88 @@ impl ::protobuf::Message for CombatEvent {
                     let tmp = is.read_uint32()?;
                     self.pad64 = tmp;
                 },
+                27 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_bool()?;
+                    self.target_downed = tmp;
+                },
+                28 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_int32()?;
+                    self.buff_stacks_removed = tmp;
+                },
+                29 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_int32()?;
+                    self.buff_duration = tmp;
+                },
+                30 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.tag_id = tmp;
+                },
+                31 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.buff_stackid = tmp;
+                },
+                32 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.new_team_id = tmp;
+                },
+                33 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.reward_id = tmp;
+                },
+                34 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.reward_type = tmp;
+                },
+                35 => {
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.weapon_set, 35, &mut self.unknown_fields)?
+                },
+                36 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.time_in_animation = tmp;
+                },
+                37 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint32()?;
+                    self.time_in_animation_scaled = tmp;
+                },
+                38 => {
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.EventType, 38, &mut self.unknown_fields)?
+                },
+                39 => {
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.buff_damage_result, 39, &mut self.unknown_fields)?
+                },
+                40 => {
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.buff_type, 40, &mut self.unknown_fields)?
+                },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
                 },
@@ -1147,20 +1341,11 @@ impl ::protobuf::Message for CombatEvent {
         if self.time != 0 {
             my_size += ::protobuf::rt::value_size(1, self.time, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.src_agent != 0 {
-            my_size += ::protobuf::rt::value_size(2, self.src_agent, ::protobuf::wire_format::WireTypeVarint);
+        if self.damage != 0 {
+            my_size += ::protobuf::rt::value_size(4, self.damage, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.dst_agent != 0 {
-            my_size += ::protobuf::rt::value_size(3, self.dst_agent, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if self.value != 0 {
-            my_size += ::protobuf::rt::value_size(4, self.value, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if self.buff_dmg != 0 {
-            my_size += ::protobuf::rt::value_size(5, self.buff_dmg, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if self.overstack_value != 0 {
-            my_size += ::protobuf::rt::value_size(6, self.overstack_value, ::protobuf::wire_format::WireTypeVarint);
+        if self.shield_damage != 0 {
+            my_size += ::protobuf::rt::value_size(6, self.shield_damage, ::protobuf::wire_format::WireTypeVarint);
         }
         if self.skillid != 0 {
             my_size += ::protobuf::rt::value_size(7, self.skillid, ::protobuf::wire_format::WireTypeVarint);
@@ -1174,38 +1359,35 @@ impl ::protobuf::Message for CombatEvent {
         if self.src_master_instid != 0 {
             my_size += ::protobuf::rt::value_size(10, self.src_master_instid, ::protobuf::wire_format::WireTypeVarint);
         }
-        if self.iff != 0 {
-            my_size += ::protobuf::rt::value_size(11, self.iff, ::protobuf::wire_format::WireTypeVarint);
+        if self.friend_or_foe != Affinity::AF_Unparsed {
+            my_size += ::protobuf::rt::enum_size(11, self.friend_or_foe);
         }
-        if self.buff != 0 {
-            my_size += ::protobuf::rt::value_size(12, self.buff, ::protobuf::wire_format::WireTypeVarint);
+        if self.result != CombatResult::Normal {
+            my_size += ::protobuf::rt::enum_size(13, self.result);
         }
-        if self.result != 0 {
-            my_size += ::protobuf::rt::value_size(13, self.result, ::protobuf::wire_format::WireTypeVarint);
+        if self.activation != CombatActivation::CA_NONE {
+            my_size += ::protobuf::rt::enum_size(14, self.activation);
         }
-        if self.is_activation != 0 {
-            my_size += ::protobuf::rt::value_size(14, self.is_activation, ::protobuf::wire_format::WireTypeVarint);
+        if self.buffremove != BuffRemoveType::BR_None {
+            my_size += ::protobuf::rt::enum_size(15, self.buffremove);
         }
-        if self.is_buffremove != 0 {
-            my_size += ::protobuf::rt::value_size(15, self.is_buffremove, ::protobuf::wire_format::WireTypeVarint);
+        if self.src_hp_over_90 != false {
+            my_size += 3;
         }
-        if self.is_ninety != 0 {
-            my_size += ::protobuf::rt::value_size(16, self.is_ninety, ::protobuf::wire_format::WireTypeVarint);
+        if self.dst_hp_over_50 != false {
+            my_size += 3;
         }
-        if self.is_fifty != 0 {
-            my_size += ::protobuf::rt::value_size(17, self.is_fifty, ::protobuf::wire_format::WireTypeVarint);
+        if self.src_is_moving != false {
+            my_size += 3;
         }
-        if self.is_moving != 0 {
-            my_size += ::protobuf::rt::value_size(18, self.is_moving, ::protobuf::wire_format::WireTypeVarint);
+        if self.statechange != StateChange::NONE {
+            my_size += ::protobuf::rt::enum_size(19, self.statechange);
         }
-        if self.is_statechange != 0 {
-            my_size += ::protobuf::rt::value_size(19, self.is_statechange, ::protobuf::wire_format::WireTypeVarint);
+        if self.is_flanking != false {
+            my_size += 3;
         }
-        if self.is_flanking != 0 {
-            my_size += ::protobuf::rt::value_size(20, self.is_flanking, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if self.is_shields != 0 {
-            my_size += ::protobuf::rt::value_size(21, self.is_shields, ::protobuf::wire_format::WireTypeVarint);
+        if self.buff_added_active != false {
+            my_size += 3;
         }
         if self.is_offcycle != 0 {
             my_size += ::protobuf::rt::value_size(22, self.is_offcycle, ::protobuf::wire_format::WireTypeVarint);
@@ -1222,6 +1404,48 @@ impl ::protobuf::Message for CombatEvent {
         if self.pad64 != 0 {
             my_size += ::protobuf::rt::value_size(26, self.pad64, ::protobuf::wire_format::WireTypeVarint);
         }
+        if self.target_downed != false {
+            my_size += 3;
+        }
+        if self.buff_stacks_removed != 0 {
+            my_size += ::protobuf::rt::value_size(28, self.buff_stacks_removed, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.buff_duration != 0 {
+            my_size += ::protobuf::rt::value_size(29, self.buff_duration, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.tag_id != 0 {
+            my_size += ::protobuf::rt::value_size(30, self.tag_id, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.buff_stackid != 0 {
+            my_size += ::protobuf::rt::value_size(31, self.buff_stackid, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.new_team_id != 0 {
+            my_size += ::protobuf::rt::value_size(32, self.new_team_id, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.reward_id != 0 {
+            my_size += ::protobuf::rt::value_size(33, self.reward_id, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.reward_type != 0 {
+            my_size += ::protobuf::rt::value_size(34, self.reward_type, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.weapon_set != WeaponSet::WS_Unparsed {
+            my_size += ::protobuf::rt::enum_size(35, self.weapon_set);
+        }
+        if self.time_in_animation != 0 {
+            my_size += ::protobuf::rt::value_size(36, self.time_in_animation, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.time_in_animation_scaled != 0 {
+            my_size += ::protobuf::rt::value_size(37, self.time_in_animation_scaled, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.EventType != EventType::None {
+            my_size += ::protobuf::rt::enum_size(38, self.EventType);
+        }
+        if self.buff_damage_result != BuffDamageResult::BD_Unparsed {
+            my_size += ::protobuf::rt::enum_size(39, self.buff_damage_result);
+        }
+        if self.buff_type != BuffType::BT_NONE {
+            my_size += ::protobuf::rt::enum_size(40, self.buff_type);
+        }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
         my_size
@@ -1231,20 +1455,11 @@ impl ::protobuf::Message for CombatEvent {
         if self.time != 0 {
             os.write_uint64(1, self.time)?;
         }
-        if self.src_agent != 0 {
-            os.write_uint32(2, self.src_agent)?;
+        if self.damage != 0 {
+            os.write_int32(4, self.damage)?;
         }
-        if self.dst_agent != 0 {
-            os.write_uint32(3, self.dst_agent)?;
-        }
-        if self.value != 0 {
-            os.write_int32(4, self.value)?;
-        }
-        if self.buff_dmg != 0 {
-            os.write_int32(5, self.buff_dmg)?;
-        }
-        if self.overstack_value != 0 {
-            os.write_uint32(6, self.overstack_value)?;
+        if self.shield_damage != 0 {
+            os.write_uint32(6, self.shield_damage)?;
         }
         if self.skillid != 0 {
             os.write_uint32(7, self.skillid)?;
@@ -1258,38 +1473,35 @@ impl ::protobuf::Message for CombatEvent {
         if self.src_master_instid != 0 {
             os.write_uint32(10, self.src_master_instid)?;
         }
-        if self.iff != 0 {
-            os.write_uint32(11, self.iff)?;
+        if self.friend_or_foe != Affinity::AF_Unparsed {
+            os.write_enum(11, ::protobuf::ProtobufEnum::value(&self.friend_or_foe))?;
         }
-        if self.buff != 0 {
-            os.write_uint32(12, self.buff)?;
+        if self.result != CombatResult::Normal {
+            os.write_enum(13, ::protobuf::ProtobufEnum::value(&self.result))?;
         }
-        if self.result != 0 {
-            os.write_uint32(13, self.result)?;
+        if self.activation != CombatActivation::CA_NONE {
+            os.write_enum(14, ::protobuf::ProtobufEnum::value(&self.activation))?;
         }
-        if self.is_activation != 0 {
-            os.write_uint32(14, self.is_activation)?;
+        if self.buffremove != BuffRemoveType::BR_None {
+            os.write_enum(15, ::protobuf::ProtobufEnum::value(&self.buffremove))?;
         }
-        if self.is_buffremove != 0 {
-            os.write_uint32(15, self.is_buffremove)?;
+        if self.src_hp_over_90 != false {
+            os.write_bool(16, self.src_hp_over_90)?;
         }
-        if self.is_ninety != 0 {
-            os.write_uint32(16, self.is_ninety)?;
+        if self.dst_hp_over_50 != false {
+            os.write_bool(17, self.dst_hp_over_50)?;
         }
-        if self.is_fifty != 0 {
-            os.write_uint32(17, self.is_fifty)?;
+        if self.src_is_moving != false {
+            os.write_bool(18, self.src_is_moving)?;
         }
-        if self.is_moving != 0 {
-            os.write_uint32(18, self.is_moving)?;
+        if self.statechange != StateChange::NONE {
+            os.write_enum(19, ::protobuf::ProtobufEnum::value(&self.statechange))?;
         }
-        if self.is_statechange != 0 {
-            os.write_uint32(19, self.is_statechange)?;
+        if self.is_flanking != false {
+            os.write_bool(20, self.is_flanking)?;
         }
-        if self.is_flanking != 0 {
-            os.write_uint32(20, self.is_flanking)?;
-        }
-        if self.is_shields != 0 {
-            os.write_uint32(21, self.is_shields)?;
+        if self.buff_added_active != false {
+            os.write_bool(21, self.buff_added_active)?;
         }
         if self.is_offcycle != 0 {
             os.write_uint32(22, self.is_offcycle)?;
@@ -1305,6 +1517,48 @@ impl ::protobuf::Message for CombatEvent {
         }
         if self.pad64 != 0 {
             os.write_uint32(26, self.pad64)?;
+        }
+        if self.target_downed != false {
+            os.write_bool(27, self.target_downed)?;
+        }
+        if self.buff_stacks_removed != 0 {
+            os.write_int32(28, self.buff_stacks_removed)?;
+        }
+        if self.buff_duration != 0 {
+            os.write_int32(29, self.buff_duration)?;
+        }
+        if self.tag_id != 0 {
+            os.write_uint32(30, self.tag_id)?;
+        }
+        if self.buff_stackid != 0 {
+            os.write_uint32(31, self.buff_stackid)?;
+        }
+        if self.new_team_id != 0 {
+            os.write_uint32(32, self.new_team_id)?;
+        }
+        if self.reward_id != 0 {
+            os.write_uint32(33, self.reward_id)?;
+        }
+        if self.reward_type != 0 {
+            os.write_uint32(34, self.reward_type)?;
+        }
+        if self.weapon_set != WeaponSet::WS_Unparsed {
+            os.write_enum(35, ::protobuf::ProtobufEnum::value(&self.weapon_set))?;
+        }
+        if self.time_in_animation != 0 {
+            os.write_uint32(36, self.time_in_animation)?;
+        }
+        if self.time_in_animation_scaled != 0 {
+            os.write_uint32(37, self.time_in_animation_scaled)?;
+        }
+        if self.EventType != EventType::None {
+            os.write_enum(38, ::protobuf::ProtobufEnum::value(&self.EventType))?;
+        }
+        if self.buff_damage_result != BuffDamageResult::BD_Unparsed {
+            os.write_enum(39, ::protobuf::ProtobufEnum::value(&self.buff_damage_result))?;
+        }
+        if self.buff_type != BuffType::BT_NONE {
+            os.write_enum(40, ::protobuf::ProtobufEnum::value(&self.buff_type))?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -1349,30 +1603,15 @@ impl ::protobuf::Message for CombatEvent {
                 |m: &CombatEvent| { &m.time },
                 |m: &mut CombatEvent| { &mut m.time },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "src_agent",
-                |m: &CombatEvent| { &m.src_agent },
-                |m: &mut CombatEvent| { &mut m.src_agent },
-            ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "dst_agent",
-                |m: &CombatEvent| { &m.dst_agent },
-                |m: &mut CombatEvent| { &mut m.dst_agent },
-            ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeInt32>(
-                "value",
-                |m: &CombatEvent| { &m.value },
-                |m: &mut CombatEvent| { &mut m.value },
-            ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeInt32>(
-                "buff_dmg",
-                |m: &CombatEvent| { &m.buff_dmg },
-                |m: &mut CombatEvent| { &mut m.buff_dmg },
+                "damage",
+                |m: &CombatEvent| { &m.damage },
+                |m: &mut CombatEvent| { &mut m.damage },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "overstack_value",
-                |m: &CombatEvent| { &m.overstack_value },
-                |m: &mut CombatEvent| { &mut m.overstack_value },
+                "shield_damage",
+                |m: &CombatEvent| { &m.shield_damage },
+                |m: &mut CombatEvent| { &mut m.shield_damage },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
                 "skillid",
@@ -1394,60 +1633,55 @@ impl ::protobuf::Message for CombatEvent {
                 |m: &CombatEvent| { &m.src_master_instid },
                 |m: &mut CombatEvent| { &mut m.src_master_instid },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "iff",
-                |m: &CombatEvent| { &m.iff },
-                |m: &mut CombatEvent| { &mut m.iff },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<Affinity>>(
+                "friend_or_foe",
+                |m: &CombatEvent| { &m.friend_or_foe },
+                |m: &mut CombatEvent| { &mut m.friend_or_foe },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "buff",
-                |m: &CombatEvent| { &m.buff },
-                |m: &mut CombatEvent| { &mut m.buff },
-            ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<CombatResult>>(
                 "result",
                 |m: &CombatEvent| { &m.result },
                 |m: &mut CombatEvent| { &mut m.result },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_activation",
-                |m: &CombatEvent| { &m.is_activation },
-                |m: &mut CombatEvent| { &mut m.is_activation },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<CombatActivation>>(
+                "activation",
+                |m: &CombatEvent| { &m.activation },
+                |m: &mut CombatEvent| { &mut m.activation },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_buffremove",
-                |m: &CombatEvent| { &m.is_buffremove },
-                |m: &mut CombatEvent| { &mut m.is_buffremove },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<BuffRemoveType>>(
+                "buffremove",
+                |m: &CombatEvent| { &m.buffremove },
+                |m: &mut CombatEvent| { &mut m.buffremove },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_ninety",
-                |m: &CombatEvent| { &m.is_ninety },
-                |m: &mut CombatEvent| { &mut m.is_ninety },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "src_hp_over_90",
+                |m: &CombatEvent| { &m.src_hp_over_90 },
+                |m: &mut CombatEvent| { &mut m.src_hp_over_90 },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_fifty",
-                |m: &CombatEvent| { &m.is_fifty },
-                |m: &mut CombatEvent| { &mut m.is_fifty },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "dst_hp_over_50",
+                |m: &CombatEvent| { &m.dst_hp_over_50 },
+                |m: &mut CombatEvent| { &mut m.dst_hp_over_50 },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_moving",
-                |m: &CombatEvent| { &m.is_moving },
-                |m: &mut CombatEvent| { &mut m.is_moving },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "src_is_moving",
+                |m: &CombatEvent| { &m.src_is_moving },
+                |m: &mut CombatEvent| { &mut m.src_is_moving },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_statechange",
-                |m: &CombatEvent| { &m.is_statechange },
-                |m: &mut CombatEvent| { &mut m.is_statechange },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<StateChange>>(
+                "statechange",
+                |m: &CombatEvent| { &m.statechange },
+                |m: &mut CombatEvent| { &mut m.statechange },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
                 "is_flanking",
                 |m: &CombatEvent| { &m.is_flanking },
                 |m: &mut CombatEvent| { &mut m.is_flanking },
             ));
-            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
-                "is_shields",
-                |m: &CombatEvent| { &m.is_shields },
-                |m: &mut CombatEvent| { &mut m.is_shields },
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "buff_added_active",
+                |m: &CombatEvent| { &m.buff_added_active },
+                |m: &mut CombatEvent| { &mut m.buff_added_active },
             ));
             fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
                 "is_offcycle",
@@ -1474,6 +1708,76 @@ impl ::protobuf::Message for CombatEvent {
                 |m: &CombatEvent| { &m.pad64 },
                 |m: &mut CombatEvent| { &mut m.pad64 },
             ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBool>(
+                "target_downed",
+                |m: &CombatEvent| { &m.target_downed },
+                |m: &mut CombatEvent| { &mut m.target_downed },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeInt32>(
+                "buff_stacks_removed",
+                |m: &CombatEvent| { &m.buff_stacks_removed },
+                |m: &mut CombatEvent| { &mut m.buff_stacks_removed },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeInt32>(
+                "buff_duration",
+                |m: &CombatEvent| { &m.buff_duration },
+                |m: &mut CombatEvent| { &mut m.buff_duration },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "tag_id",
+                |m: &CombatEvent| { &m.tag_id },
+                |m: &mut CombatEvent| { &mut m.tag_id },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "buff_stackid",
+                |m: &CombatEvent| { &m.buff_stackid },
+                |m: &mut CombatEvent| { &mut m.buff_stackid },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "new_team_id",
+                |m: &CombatEvent| { &m.new_team_id },
+                |m: &mut CombatEvent| { &mut m.new_team_id },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "reward_id",
+                |m: &CombatEvent| { &m.reward_id },
+                |m: &mut CombatEvent| { &mut m.reward_id },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "reward_type",
+                |m: &CombatEvent| { &m.reward_type },
+                |m: &mut CombatEvent| { &mut m.reward_type },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<WeaponSet>>(
+                "weapon_set",
+                |m: &CombatEvent| { &m.weapon_set },
+                |m: &mut CombatEvent| { &mut m.weapon_set },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "time_in_animation",
+                |m: &CombatEvent| { &m.time_in_animation },
+                |m: &mut CombatEvent| { &mut m.time_in_animation },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint32>(
+                "time_in_animation_scaled",
+                |m: &CombatEvent| { &m.time_in_animation_scaled },
+                |m: &mut CombatEvent| { &mut m.time_in_animation_scaled },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<EventType>>(
+                "EventType",
+                |m: &CombatEvent| { &m.EventType },
+                |m: &mut CombatEvent| { &mut m.EventType },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<BuffDamageResult>>(
+                "buff_damage_result",
+                |m: &CombatEvent| { &m.buff_damage_result },
+                |m: &mut CombatEvent| { &mut m.buff_damage_result },
+            ));
+            fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<BuffType>>(
+                "buff_type",
+                |m: &CombatEvent| { &m.buff_type },
+                |m: &mut CombatEvent| { &mut m.buff_type },
+            ));
             ::protobuf::reflect::MessageDescriptor::new_pb_name::<CombatEvent>(
                 "CombatEvent",
                 fields,
@@ -1491,31 +1795,41 @@ impl ::protobuf::Message for CombatEvent {
 impl ::protobuf::Clear for CombatEvent {
     fn clear(&mut self) {
         self.time = 0;
-        self.src_agent = 0;
-        self.dst_agent = 0;
-        self.value = 0;
-        self.buff_dmg = 0;
-        self.overstack_value = 0;
+        self.damage = 0;
+        self.shield_damage = 0;
         self.skillid = 0;
         self.src_instid = 0;
         self.dst_instid = 0;
         self.src_master_instid = 0;
-        self.iff = 0;
-        self.buff = 0;
-        self.result = 0;
-        self.is_activation = 0;
-        self.is_buffremove = 0;
-        self.is_ninety = 0;
-        self.is_fifty = 0;
-        self.is_moving = 0;
-        self.is_statechange = 0;
-        self.is_flanking = 0;
-        self.is_shields = 0;
+        self.friend_or_foe = Affinity::AF_Unparsed;
+        self.result = CombatResult::Normal;
+        self.activation = CombatActivation::CA_NONE;
+        self.buffremove = BuffRemoveType::BR_None;
+        self.src_hp_over_90 = false;
+        self.dst_hp_over_50 = false;
+        self.src_is_moving = false;
+        self.statechange = StateChange::NONE;
+        self.is_flanking = false;
+        self.buff_added_active = false;
         self.is_offcycle = 0;
         self.pad61 = 0;
         self.pad62 = 0;
         self.pad63 = 0;
         self.pad64 = 0;
+        self.target_downed = false;
+        self.buff_stacks_removed = 0;
+        self.buff_duration = 0;
+        self.tag_id = 0;
+        self.buff_stackid = 0;
+        self.new_team_id = 0;
+        self.reward_id = 0;
+        self.reward_type = 0;
+        self.weapon_set = WeaponSet::WS_Unparsed;
+        self.time_in_animation = 0;
+        self.time_in_animation_scaled = 0;
+        self.EventType = EventType::None;
+        self.buff_damage_result = BuffDamageResult::BD_Unparsed;
+        self.buff_type = BuffType::BT_NONE;
         self.unknown_fields.clear();
     }
 }
@@ -1565,7 +1879,7 @@ impl CombatMessage {
         self.combat_type
     }
     pub fn clear_combat_type(&mut self) {
-        self.combat_type = CombatType::Area;
+        self.combat_type = CombatType::CT_UnParsed;
     }
 
     // Param is passed by value, moved
@@ -1794,7 +2108,7 @@ impl ::protobuf::Message for CombatMessage {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if self.combat_type != CombatType::Area {
+        if self.combat_type != CombatType::CT_UnParsed {
             my_size += ::protobuf::rt::enum_size(1, self.combat_type);
         }
         if let Some(ref v) = self.combat_event.as_ref() {
@@ -1824,7 +2138,7 @@ impl ::protobuf::Message for CombatMessage {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream<'_>) -> ::protobuf::ProtobufResult<()> {
-        if self.combat_type != CombatType::Area {
+        if self.combat_type != CombatType::CT_UnParsed {
             os.write_enum(1, ::protobuf::ProtobufEnum::value(&self.combat_type))?;
         }
         if let Some(ref v) = self.combat_event.as_ref() {
@@ -1940,7 +2254,7 @@ impl ::protobuf::Message for CombatMessage {
 
 impl ::protobuf::Clear for CombatMessage {
     fn clear(&mut self) {
-        self.combat_type = CombatType::Area;
+        self.combat_type = CombatType::CT_UnParsed;
         self.combat_event.clear();
         self.src_actor.clear();
         self.dst_actor.clear();
@@ -2246,6 +2560,7 @@ impl ::protobuf::reflect::ProtobufValue for UiState {
 
 #[derive(Clone,PartialEq,Eq,Debug,Hash)]
 pub enum CombatType {
+    CT_UnParsed = 0,
     Area = 1,
     Local = 2,
 }
@@ -2257,6 +2572,7 @@ impl ::protobuf::ProtobufEnum for CombatType {
 
     fn from_i32(value: i32) -> ::std::option::Option<CombatType> {
         match value {
+            0 => ::std::option::Option::Some(CombatType::CT_UnParsed),
             1 => ::std::option::Option::Some(CombatType::Area),
             2 => ::std::option::Option::Some(CombatType::Local),
             _ => ::std::option::Option::None
@@ -2265,6 +2581,7 @@ impl ::protobuf::ProtobufEnum for CombatType {
 
     fn values() -> &'static [Self] {
         static values: &'static [CombatType] = &[
+            CombatType::CT_UnParsed,
             CombatType::Area,
             CombatType::Local,
         ];
@@ -2282,10 +2599,9 @@ impl ::protobuf::ProtobufEnum for CombatType {
 impl ::std::marker::Copy for CombatType {
 }
 
-// Note, `Default` is implemented although default value is not 0
 impl ::std::default::Default for CombatType {
     fn default() -> Self {
-        CombatType::Area
+        CombatType::CT_UnParsed
     }
 }
 
@@ -2295,46 +2611,780 @@ impl ::protobuf::reflect::ProtobufValue for CombatType {
     }
 }
 
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum BuffType {
+    BT_NONE = 0,
+    POWER = 1,
+    PRECISION = 2,
+    TOUGHNESS = 3,
+    VITALITY = 4,
+    FEROCITY = 5,
+    HEALING = 6,
+    CONDITION = 7,
+    CONCENTRATION = 8,
+    EXPERTISE = 9,
+    CUST_ARMOR = 10,
+    CUST_AGONY = 11,
+    CUST_STATINC = 12,
+    CUST_PHYSINC = 13,
+    CUST_CONDINC = 14,
+    CUST_PHYSREC = 15,
+    CUST_CONDREC = 16,
+    CUST_ATTACKSPEED = 17,
+    CUST_SIPHONINC = 18,
+    CUST_SIPHONREC = 19,
+    BT_UNPARSED = 20,
+    BT_UNKNOWN = 65535,
+}
+
+impl ::protobuf::ProtobufEnum for BuffType {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<BuffType> {
+        match value {
+            0 => ::std::option::Option::Some(BuffType::BT_NONE),
+            1 => ::std::option::Option::Some(BuffType::POWER),
+            2 => ::std::option::Option::Some(BuffType::PRECISION),
+            3 => ::std::option::Option::Some(BuffType::TOUGHNESS),
+            4 => ::std::option::Option::Some(BuffType::VITALITY),
+            5 => ::std::option::Option::Some(BuffType::FEROCITY),
+            6 => ::std::option::Option::Some(BuffType::HEALING),
+            7 => ::std::option::Option::Some(BuffType::CONDITION),
+            8 => ::std::option::Option::Some(BuffType::CONCENTRATION),
+            9 => ::std::option::Option::Some(BuffType::EXPERTISE),
+            10 => ::std::option::Option::Some(BuffType::CUST_ARMOR),
+            11 => ::std::option::Option::Some(BuffType::CUST_AGONY),
+            12 => ::std::option::Option::Some(BuffType::CUST_STATINC),
+            13 => ::std::option::Option::Some(BuffType::CUST_PHYSINC),
+            14 => ::std::option::Option::Some(BuffType::CUST_CONDINC),
+            15 => ::std::option::Option::Some(BuffType::CUST_PHYSREC),
+            16 => ::std::option::Option::Some(BuffType::CUST_CONDREC),
+            17 => ::std::option::Option::Some(BuffType::CUST_ATTACKSPEED),
+            18 => ::std::option::Option::Some(BuffType::CUST_SIPHONINC),
+            19 => ::std::option::Option::Some(BuffType::CUST_SIPHONREC),
+            20 => ::std::option::Option::Some(BuffType::BT_UNPARSED),
+            65535 => ::std::option::Option::Some(BuffType::BT_UNKNOWN),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [BuffType] = &[
+            BuffType::BT_NONE,
+            BuffType::POWER,
+            BuffType::PRECISION,
+            BuffType::TOUGHNESS,
+            BuffType::VITALITY,
+            BuffType::FEROCITY,
+            BuffType::HEALING,
+            BuffType::CONDITION,
+            BuffType::CONCENTRATION,
+            BuffType::EXPERTISE,
+            BuffType::CUST_ARMOR,
+            BuffType::CUST_AGONY,
+            BuffType::CUST_STATINC,
+            BuffType::CUST_PHYSINC,
+            BuffType::CUST_CONDINC,
+            BuffType::CUST_PHYSREC,
+            BuffType::CUST_CONDREC,
+            BuffType::CUST_ATTACKSPEED,
+            BuffType::CUST_SIPHONINC,
+            BuffType::CUST_SIPHONREC,
+            BuffType::BT_UNPARSED,
+            BuffType::BT_UNKNOWN,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<BuffType>("BuffType", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for BuffType {
+}
+
+impl ::std::default::Default for BuffType {
+    fn default() -> Self {
+        BuffType::BT_NONE
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for BuffType {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum Affinity {
+    AF_Unparsed = 0,
+    Friend = 1,
+    Foe = 2,
+    Unknown = 3,
+}
+
+impl ::protobuf::ProtobufEnum for Affinity {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Affinity> {
+        match value {
+            0 => ::std::option::Option::Some(Affinity::AF_Unparsed),
+            1 => ::std::option::Option::Some(Affinity::Friend),
+            2 => ::std::option::Option::Some(Affinity::Foe),
+            3 => ::std::option::Option::Some(Affinity::Unknown),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [Affinity] = &[
+            Affinity::AF_Unparsed,
+            Affinity::Friend,
+            Affinity::Foe,
+            Affinity::Unknown,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<Affinity>("Affinity", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for Affinity {
+}
+
+impl ::std::default::Default for Affinity {
+    fn default() -> Self {
+        Affinity::AF_Unparsed
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for Affinity {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum BuffDamageResult {
+    BD_Unparsed = 0,
+    BD_Normal = 1,
+    InvulnerableFromBuff = 2,
+    InvulnerableFromSkill1 = 3,
+    InvulnerableFromSkill2 = 4,
+    InvulnerableFromSkill3 = 5,
+}
+
+impl ::protobuf::ProtobufEnum for BuffDamageResult {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<BuffDamageResult> {
+        match value {
+            0 => ::std::option::Option::Some(BuffDamageResult::BD_Unparsed),
+            1 => ::std::option::Option::Some(BuffDamageResult::BD_Normal),
+            2 => ::std::option::Option::Some(BuffDamageResult::InvulnerableFromBuff),
+            3 => ::std::option::Option::Some(BuffDamageResult::InvulnerableFromSkill1),
+            4 => ::std::option::Option::Some(BuffDamageResult::InvulnerableFromSkill2),
+            5 => ::std::option::Option::Some(BuffDamageResult::InvulnerableFromSkill3),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [BuffDamageResult] = &[
+            BuffDamageResult::BD_Unparsed,
+            BuffDamageResult::BD_Normal,
+            BuffDamageResult::InvulnerableFromBuff,
+            BuffDamageResult::InvulnerableFromSkill1,
+            BuffDamageResult::InvulnerableFromSkill2,
+            BuffDamageResult::InvulnerableFromSkill3,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<BuffDamageResult>("BuffDamageResult", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for BuffDamageResult {
+}
+
+impl ::std::default::Default for BuffDamageResult {
+    fn default() -> Self {
+        BuffDamageResult::BD_Unparsed
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for BuffDamageResult {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum CombatResult {
+    Normal = 0,
+    Critical = 1,
+    Glance = 2,
+    Block = 3,
+    Evade = 4,
+    Interrupt = 5,
+    Absorb = 6,
+    Blind = 7,
+    KillingBlow = 8,
+    Downed = 9,
+    Breakbar = 10,
+    OnActivation = 11,
+    CR_Unknown = 12,
+    CR_Unparsed = 13,
+}
+
+impl ::protobuf::ProtobufEnum for CombatResult {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<CombatResult> {
+        match value {
+            0 => ::std::option::Option::Some(CombatResult::Normal),
+            1 => ::std::option::Option::Some(CombatResult::Critical),
+            2 => ::std::option::Option::Some(CombatResult::Glance),
+            3 => ::std::option::Option::Some(CombatResult::Block),
+            4 => ::std::option::Option::Some(CombatResult::Evade),
+            5 => ::std::option::Option::Some(CombatResult::Interrupt),
+            6 => ::std::option::Option::Some(CombatResult::Absorb),
+            7 => ::std::option::Option::Some(CombatResult::Blind),
+            8 => ::std::option::Option::Some(CombatResult::KillingBlow),
+            9 => ::std::option::Option::Some(CombatResult::Downed),
+            10 => ::std::option::Option::Some(CombatResult::Breakbar),
+            11 => ::std::option::Option::Some(CombatResult::OnActivation),
+            12 => ::std::option::Option::Some(CombatResult::CR_Unknown),
+            13 => ::std::option::Option::Some(CombatResult::CR_Unparsed),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [CombatResult] = &[
+            CombatResult::Normal,
+            CombatResult::Critical,
+            CombatResult::Glance,
+            CombatResult::Block,
+            CombatResult::Evade,
+            CombatResult::Interrupt,
+            CombatResult::Absorb,
+            CombatResult::Blind,
+            CombatResult::KillingBlow,
+            CombatResult::Downed,
+            CombatResult::Breakbar,
+            CombatResult::OnActivation,
+            CombatResult::CR_Unknown,
+            CombatResult::CR_Unparsed,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<CombatResult>("CombatResult", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for CombatResult {
+}
+
+impl ::std::default::Default for CombatResult {
+    fn default() -> Self {
+        CombatResult::Normal
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for CombatResult {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum EventType {
+    None = 0,
+    DirectDamage = 7,
+    BuffApplied = 1,
+    BuffRemoved = 2,
+    StateChanged = 3,
+    ET_Unparsed = 4,
+    Activation = 5,
+    BuffDamage = 6,
+}
+
+impl ::protobuf::ProtobufEnum for EventType {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<EventType> {
+        match value {
+            0 => ::std::option::Option::Some(EventType::None),
+            7 => ::std::option::Option::Some(EventType::DirectDamage),
+            1 => ::std::option::Option::Some(EventType::BuffApplied),
+            2 => ::std::option::Option::Some(EventType::BuffRemoved),
+            3 => ::std::option::Option::Some(EventType::StateChanged),
+            4 => ::std::option::Option::Some(EventType::ET_Unparsed),
+            5 => ::std::option::Option::Some(EventType::Activation),
+            6 => ::std::option::Option::Some(EventType::BuffDamage),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [EventType] = &[
+            EventType::None,
+            EventType::DirectDamage,
+            EventType::BuffApplied,
+            EventType::BuffRemoved,
+            EventType::StateChanged,
+            EventType::ET_Unparsed,
+            EventType::Activation,
+            EventType::BuffDamage,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<EventType>("EventType", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for EventType {
+}
+
+impl ::std::default::Default for EventType {
+    fn default() -> Self {
+        EventType::None
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for EventType {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum StateChange {
+    NONE = 0,
+    ENTERCOMBAT = 1,
+    EXITCOMBAT = 2,
+    CHANGEUP = 3,
+    CHANGEDEAD = 4,
+    CHANGEDOWN = 5,
+    LOGSTART = 9,
+    LOGEND = 10,
+    WEAPSWAP = 11,
+    REWARD = 17,
+    BUFFINITIAL = 18,
+    TEAMCHANGE = 19,
+    STACKACTIVE = 24,
+    STACKRESET = 25,
+    GUILD = 26,
+    TAG = 33,
+    STATRESET = 35,
+    EXTENSION = 36,
+    APIDELAYED = 37,
+    INSTANCESTART = 38,
+    UNKNOWN = 39,
+    SC_UNPARSED = 40,
+}
+
+impl ::protobuf::ProtobufEnum for StateChange {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<StateChange> {
+        match value {
+            0 => ::std::option::Option::Some(StateChange::NONE),
+            1 => ::std::option::Option::Some(StateChange::ENTERCOMBAT),
+            2 => ::std::option::Option::Some(StateChange::EXITCOMBAT),
+            3 => ::std::option::Option::Some(StateChange::CHANGEUP),
+            4 => ::std::option::Option::Some(StateChange::CHANGEDEAD),
+            5 => ::std::option::Option::Some(StateChange::CHANGEDOWN),
+            9 => ::std::option::Option::Some(StateChange::LOGSTART),
+            10 => ::std::option::Option::Some(StateChange::LOGEND),
+            11 => ::std::option::Option::Some(StateChange::WEAPSWAP),
+            17 => ::std::option::Option::Some(StateChange::REWARD),
+            18 => ::std::option::Option::Some(StateChange::BUFFINITIAL),
+            19 => ::std::option::Option::Some(StateChange::TEAMCHANGE),
+            24 => ::std::option::Option::Some(StateChange::STACKACTIVE),
+            25 => ::std::option::Option::Some(StateChange::STACKRESET),
+            26 => ::std::option::Option::Some(StateChange::GUILD),
+            33 => ::std::option::Option::Some(StateChange::TAG),
+            35 => ::std::option::Option::Some(StateChange::STATRESET),
+            36 => ::std::option::Option::Some(StateChange::EXTENSION),
+            37 => ::std::option::Option::Some(StateChange::APIDELAYED),
+            38 => ::std::option::Option::Some(StateChange::INSTANCESTART),
+            39 => ::std::option::Option::Some(StateChange::UNKNOWN),
+            40 => ::std::option::Option::Some(StateChange::SC_UNPARSED),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [StateChange] = &[
+            StateChange::NONE,
+            StateChange::ENTERCOMBAT,
+            StateChange::EXITCOMBAT,
+            StateChange::CHANGEUP,
+            StateChange::CHANGEDEAD,
+            StateChange::CHANGEDOWN,
+            StateChange::LOGSTART,
+            StateChange::LOGEND,
+            StateChange::WEAPSWAP,
+            StateChange::REWARD,
+            StateChange::BUFFINITIAL,
+            StateChange::TEAMCHANGE,
+            StateChange::STACKACTIVE,
+            StateChange::STACKRESET,
+            StateChange::GUILD,
+            StateChange::TAG,
+            StateChange::STATRESET,
+            StateChange::EXTENSION,
+            StateChange::APIDELAYED,
+            StateChange::INSTANCESTART,
+            StateChange::UNKNOWN,
+            StateChange::SC_UNPARSED,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<StateChange>("StateChange", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for StateChange {
+}
+
+impl ::std::default::Default for StateChange {
+    fn default() -> Self {
+        StateChange::NONE
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for StateChange {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum CombatActivation {
+    CA_NONE = 0,
+    START = 1,
+    QUICKNESS_UNUSED = 2,
+    CANCEL_FIRE = 3,
+    CANCEL_CANCEL = 4,
+    RESET = 5,
+    CA_UNKNOWN = 6,
+    CA_UNPARSED = 7,
+}
+
+impl ::protobuf::ProtobufEnum for CombatActivation {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<CombatActivation> {
+        match value {
+            0 => ::std::option::Option::Some(CombatActivation::CA_NONE),
+            1 => ::std::option::Option::Some(CombatActivation::START),
+            2 => ::std::option::Option::Some(CombatActivation::QUICKNESS_UNUSED),
+            3 => ::std::option::Option::Some(CombatActivation::CANCEL_FIRE),
+            4 => ::std::option::Option::Some(CombatActivation::CANCEL_CANCEL),
+            5 => ::std::option::Option::Some(CombatActivation::RESET),
+            6 => ::std::option::Option::Some(CombatActivation::CA_UNKNOWN),
+            7 => ::std::option::Option::Some(CombatActivation::CA_UNPARSED),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [CombatActivation] = &[
+            CombatActivation::CA_NONE,
+            CombatActivation::START,
+            CombatActivation::QUICKNESS_UNUSED,
+            CombatActivation::CANCEL_FIRE,
+            CombatActivation::CANCEL_CANCEL,
+            CombatActivation::RESET,
+            CombatActivation::CA_UNKNOWN,
+            CombatActivation::CA_UNPARSED,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<CombatActivation>("CombatActivation", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for CombatActivation {
+}
+
+impl ::std::default::Default for CombatActivation {
+    fn default() -> Self {
+        CombatActivation::CA_NONE
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for CombatActivation {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum BuffRemoveType {
+    BR_None = 0,
+    All = 1,
+    Single = 2,
+    Manual = 3,
+    BR_Unparsed = 4,
+}
+
+impl ::protobuf::ProtobufEnum for BuffRemoveType {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<BuffRemoveType> {
+        match value {
+            0 => ::std::option::Option::Some(BuffRemoveType::BR_None),
+            1 => ::std::option::Option::Some(BuffRemoveType::All),
+            2 => ::std::option::Option::Some(BuffRemoveType::Single),
+            3 => ::std::option::Option::Some(BuffRemoveType::Manual),
+            4 => ::std::option::Option::Some(BuffRemoveType::BR_Unparsed),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [BuffRemoveType] = &[
+            BuffRemoveType::BR_None,
+            BuffRemoveType::All,
+            BuffRemoveType::Single,
+            BuffRemoveType::Manual,
+            BuffRemoveType::BR_Unparsed,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<BuffRemoveType>("BuffRemoveType", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for BuffRemoveType {
+}
+
+impl ::std::default::Default for BuffRemoveType {
+    fn default() -> Self {
+        BuffRemoveType::BR_None
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for BuffRemoveType {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum WeaponSet {
+    WS_Unparsed = 0,
+    WaterSetOne = 1,
+    WaterSetTwo = 2,
+    LandSetOne = 5,
+    LandSetTwo = 6,
+}
+
+impl ::protobuf::ProtobufEnum for WeaponSet {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<WeaponSet> {
+        match value {
+            0 => ::std::option::Option::Some(WeaponSet::WS_Unparsed),
+            1 => ::std::option::Option::Some(WeaponSet::WaterSetOne),
+            2 => ::std::option::Option::Some(WeaponSet::WaterSetTwo),
+            5 => ::std::option::Option::Some(WeaponSet::LandSetOne),
+            6 => ::std::option::Option::Some(WeaponSet::LandSetTwo),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [WeaponSet] = &[
+            WeaponSet::WS_Unparsed,
+            WeaponSet::WaterSetOne,
+            WeaponSet::WaterSetTwo,
+            WeaponSet::LandSetOne,
+            WeaponSet::LandSetTwo,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static descriptor: ::protobuf::rt::LazyV2<::protobuf::reflect::EnumDescriptor> = ::protobuf::rt::LazyV2::INIT;
+        descriptor.get(|| {
+            ::protobuf::reflect::EnumDescriptor::new_pb_name::<WeaponSet>("WeaponSet", file_descriptor_proto())
+        })
+    }
+}
+
+impl ::std::marker::Copy for WeaponSet {
+}
+
+impl ::std::default::Default for WeaponSet {
+    fn default() -> Self {
+        WeaponSet::WS_Unparsed
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for WeaponSet {
+    fn as_ref(&self) -> ::protobuf::reflect::ReflectValueRef {
+        ::protobuf::reflect::ReflectValueRef::Enum(::protobuf::ProtobufEnum::descriptor(self))
+    }
+}
+
 static file_descriptor_proto_data: &'static [u8] = b"\
     \n\x0feventdata.proto\"4\n\nImGuiEvent\x12$\n\x07UiState\x18\x01\x20\x01\
-    (\x0e2\x08.UiStateR\x07UiStateB\0:\0\"\x8c\x01\n\x05Actor\x12\x14\n\x04n\
+    (\x0e2\x08.UiStateR\x07UiStateB\0:\0\"\xa8\x01\n\x05Actor\x12\x14\n\x04n\
     ame\x18\x01\x20\x01(\tR\x04nameB\0\x12\x10\n\x02id\x18\x02\x20\x01(\rR\
-    \x02idB\0\x12\x14\n\x04prof\x18\x03\x20\x01(\rR\x04profB\0\x12\x16\n\x05\
-    elite\x18\x04\x20\x01(\rR\x05eliteB\0\x12\x15\n\x05self_\x18\x05\x20\x01\
-    (\rR\x04selfB\0\x12\x14\n\x04team\x18\x06\x20\x01(\rR\x04teamB\0:\0\"\
-    \xac\x06\n\x0bCombatEvent\x12\x14\n\x04time\x18\x01\x20\x01(\x04R\x04tim\
-    eB\0\x12\x1d\n\tsrc_agent\x18\x02\x20\x01(\rR\x08srcAgentB\0\x12\x1d\n\t\
-    dst_agent\x18\x03\x20\x01(\rR\x08dstAgentB\0\x12\x16\n\x05value\x18\x04\
-    \x20\x01(\x05R\x05valueB\0\x12\x1b\n\x08buff_dmg\x18\x05\x20\x01(\x05R\
-    \x07buffDmgB\0\x12)\n\x0foverstack_value\x18\x06\x20\x01(\rR\x0eoverstac\
-    kValueB\0\x12\x1a\n\x07skillid\x18\x07\x20\x01(\rR\x07skillidB\0\x12\x1f\
-    \n\nsrc_instid\x18\x08\x20\x01(\rR\tsrcInstidB\0\x12\x1f\n\ndst_instid\
-    \x18\t\x20\x01(\rR\tdstInstidB\0\x12,\n\x11src_master_instid\x18\n\x20\
-    \x01(\rR\x0fsrcMasterInstidB\0\x12\x12\n\x03iff\x18\x0b\x20\x01(\rR\x03i\
-    ffB\0\x12\x14\n\x04buff\x18\x0c\x20\x01(\rR\x04buffB\0\x12\x18\n\x06resu\
-    lt\x18\r\x20\x01(\rR\x06resultB\0\x12%\n\ris_activation\x18\x0e\x20\x01(\
-    \rR\x0cisActivationB\0\x12%\n\ris_buffremove\x18\x0f\x20\x01(\rR\x0cisBu\
-    ffremoveB\0\x12\x1d\n\tis_ninety\x18\x10\x20\x01(\rR\x08isNinetyB\0\x12\
-    \x1b\n\x08is_fifty\x18\x11\x20\x01(\rR\x07isFiftyB\0\x12\x1d\n\tis_movin\
-    g\x18\x12\x20\x01(\rR\x08isMovingB\0\x12'\n\x0eis_statechange\x18\x13\
-    \x20\x01(\rR\risStatechangeB\0\x12!\n\x0bis_flanking\x18\x14\x20\x01(\rR\
-    \nisFlankingB\0\x12\x1f\n\nis_shields\x18\x15\x20\x01(\rR\tisShieldsB\0\
-    \x12!\n\x0bis_offcycle\x18\x16\x20\x01(\rR\nisOffcycleB\0\x12\x16\n\x05p\
-    ad61\x18\x17\x20\x01(\rR\x05pad61B\0\x12\x16\n\x05pad62\x18\x18\x20\x01(\
-    \rR\x05pad62B\0\x12\x16\n\x05pad63\x18\x19\x20\x01(\rR\x05pad63B\0\x12\
-    \x16\n\x05pad64\x18\x1a\x20\x01(\rR\x05pad64B\0:\0\"\x92\x02\n\rCombatMe\
-    ssage\x12.\n\x0bcombat_type\x18\x01\x20\x01(\x0e2\x0b.CombatTypeR\ncomba\
-    tTypeB\0\x121\n\x0ccombat_event\x18\x02\x20\x01(\x0b2\x0c.CombatEventR\
-    \x0bcombatEventB\0\x12%\n\tsrc_actor\x18\x03\x20\x01(\x0b2\x06.ActorR\
-    \x08srcActorB\0\x12%\n\tdst_actor\x18\x04\x20\x01(\x0b2\x06.ActorR\x08ds\
-    tActorB\0\x12\x1e\n\tskillname\x18\x05\x20\x01(\tR\tskillnameB\0\x12\x10\
-    \n\x02id\x18\x06\x20\x01(\x04R\x02idB\0\x12\x1c\n\x08revision\x18\x07\
-    \x20\x01(\x04R\x08revisionB\0:\0\"r\n\x05Event\x12.\n\x0bimgui_event\x18\
-    \x01\x20\x01(\x0b2\x0b.ImGuiEventR\nimguiEventB\0\x127\n\x0ecombat_messa\
-    ge\x18\x02\x20\x01(\x0b2\x0e.CombatMessageR\rcombatMessageB\0:\0*9\n\x07\
-    UiState\x12\x0b\n\x07Default\x10\0\x12\x1f\n\x1bCharacterSelectionOrLoad\
-    ing\x10\x01\x1a\0*#\n\nCombatType\x12\x08\n\x04Area\x10\x01\x12\t\n\x05L\
-    ocal\x10\x02\x1a\0B\0b\x06proto3\
+    \x02idB\0\x12\x20\n\nProfession\x18\x03\x20\x01(\rR\nProfessionB\0\x12\
+    \x1e\n\tEliteSpec\x18\x04\x20\x01(\rR\tEliteSpecB\0\x12\x1d\n\tis_player\
+    \x18\x05\x20\x01(\x08R\x08isPlayerB\0\x12\x14\n\x04team\x18\x06\x20\x01(\
+    \rR\x04teamB\0:\0\"\xff\n\n\x0bCombatEvent\x12\x14\n\x04time\x18\x01\x20\
+    \x01(\x04R\x04timeB\0\x12\x18\n\x06damage\x18\x04\x20\x01(\x05R\x06damag\
+    eB\0\x12%\n\rshield_damage\x18\x06\x20\x01(\rR\x0cshieldDamageB\0\x12\
+    \x1a\n\x07skillid\x18\x07\x20\x01(\rR\x07skillidB\0\x12\x1f\n\nsrc_insti\
+    d\x18\x08\x20\x01(\rR\tsrcInstidB\0\x12\x1f\n\ndst_instid\x18\t\x20\x01(\
+    \rR\tdstInstidB\0\x12,\n\x11src_master_instid\x18\n\x20\x01(\rR\x0fsrcMa\
+    sterInstidB\0\x12/\n\rfriend_or_foe\x18\x0b\x20\x01(\x0e2\t.AffinityR\
+    \x0bfriendOrFoeB\0\x12'\n\x06result\x18\r\x20\x01(\x0e2\r.CombatResultR\
+    \x06resultB\0\x123\n\nactivation\x18\x0e\x20\x01(\x0e2\x11.CombatActivat\
+    ionR\nactivationB\0\x121\n\nbuffremove\x18\x0f\x20\x01(\x0e2\x0f.BuffRem\
+    oveTypeR\nbuffremoveB\0\x12%\n\x0esrc_hp_over_90\x18\x10\x20\x01(\x08R\
+    \x0bsrcHpOver90B\0\x12%\n\x0edst_hp_over_50\x18\x11\x20\x01(\x08R\x0bdst\
+    HpOver50B\0\x12$\n\rsrc_is_moving\x18\x12\x20\x01(\x08R\x0bsrcIsMovingB\
+    \0\x120\n\x0bstatechange\x18\x13\x20\x01(\x0e2\x0c.StateChangeR\x0bstate\
+    changeB\0\x12!\n\x0bis_flanking\x18\x14\x20\x01(\x08R\nisFlankingB\0\x12\
+    ,\n\x11buff_added_active\x18\x15\x20\x01(\x08R\x0fbuffAddedActiveB\0\x12\
+    !\n\x0bis_offcycle\x18\x16\x20\x01(\rR\nisOffcycleB\0\x12\x16\n\x05pad61\
+    \x18\x17\x20\x01(\rR\x05pad61B\0\x12\x16\n\x05pad62\x18\x18\x20\x01(\rR\
+    \x05pad62B\0\x12\x16\n\x05pad63\x18\x19\x20\x01(\rR\x05pad63B\0\x12\x16\
+    \n\x05pad64\x18\x1a\x20\x01(\rR\x05pad64B\0\x12%\n\rtarget_downed\x18\
+    \x1b\x20\x01(\x08R\x0ctargetDownedB\0\x120\n\x13buff_stacks_removed\x18\
+    \x1c\x20\x01(\x05R\x11buffStacksRemovedB\0\x12%\n\rbuff_duration\x18\x1d\
+    \x20\x01(\x05R\x0cbuffDurationB\0\x12\x17\n\x06tag_id\x18\x1e\x20\x01(\r\
+    R\x05tagIdB\0\x12#\n\x0cbuff_stackid\x18\x1f\x20\x01(\rR\x0bbuffStackidB\
+    \0\x12\x20\n\x0bnew_team_id\x18\x20\x20\x01(\rR\tnewTeamIdB\0\x12\x1d\n\
+    \treward_id\x18!\x20\x01(\rR\x08rewardIdB\0\x12!\n\x0breward_type\x18\"\
+    \x20\x01(\rR\nrewardTypeB\0\x12+\n\nweapon_set\x18#\x20\x01(\x0e2\n.Weap\
+    onSetR\tweaponSetB\0\x12,\n\x11time_in_animation\x18$\x20\x01(\rR\x0ftim\
+    eInAnimationB\0\x129\n\x18time_in_animation_scaled\x18%\x20\x01(\rR\x15t\
+    imeInAnimationScaledB\0\x12*\n\tEventType\x18&\x20\x01(\x0e2\n.EventType\
+    R\tEventTypeB\0\x12A\n\x12buff_damage_result\x18'\x20\x01(\x0e2\x11.Buff\
+    DamageResultR\x10buffDamageResultB\0\x12(\n\tbuff_type\x18(\x20\x01(\x0e\
+    2\t.BuffTypeR\x08buffTypeB\0:\0\"\x92\x02\n\rCombatMessage\x12.\n\x0bcom\
+    bat_type\x18\x01\x20\x01(\x0e2\x0b.CombatTypeR\ncombatTypeB\0\x121\n\x0c\
+    combat_event\x18\x02\x20\x01(\x0b2\x0c.CombatEventR\x0bcombatEventB\0\
+    \x12%\n\tsrc_actor\x18\x03\x20\x01(\x0b2\x06.ActorR\x08srcActorB\0\x12%\
+    \n\tdst_actor\x18\x04\x20\x01(\x0b2\x06.ActorR\x08dstActorB\0\x12\x1e\n\
+    \tskillname\x18\x05\x20\x01(\tR\tskillnameB\0\x12\x10\n\x02id\x18\x06\
+    \x20\x01(\x04R\x02idB\0\x12\x1c\n\x08revision\x18\x07\x20\x01(\x04R\x08r\
+    evisionB\0:\0\"r\n\x05Event\x12.\n\x0bimgui_event\x18\x01\x20\x01(\x0b2\
+    \x0b.ImGuiEventR\nimguiEventB\0\x127\n\x0ecombat_message\x18\x02\x20\x01\
+    (\x0b2\x0e.CombatMessageR\rcombatMessageB\0:\0*9\n\x07UiState\x12\x0b\n\
+    \x07Default\x10\0\x12\x1f\n\x1bCharacterSelectionOrLoading\x10\x01\x1a\0\
+    *4\n\nCombatType\x12\x0f\n\x0bCT_UnParsed\x10\0\x12\x08\n\x04Area\x10\
+    \x01\x12\t\n\x05Local\x10\x02\x1a\0*\xf7\x02\n\x08BuffType\x12\x0b\n\x07\
+    BT_NONE\x10\0\x12\t\n\x05POWER\x10\x01\x12\r\n\tPRECISION\x10\x02\x12\r\
+    \n\tTOUGHNESS\x10\x03\x12\x0c\n\x08VITALITY\x10\x04\x12\x0c\n\x08FEROCIT\
+    Y\x10\x05\x12\x0b\n\x07HEALING\x10\x06\x12\r\n\tCONDITION\x10\x07\x12\
+    \x11\n\rCONCENTRATION\x10\x08\x12\r\n\tEXPERTISE\x10\t\x12\x0e\n\nCUST_A\
+    RMOR\x10\n\x12\x0e\n\nCUST_AGONY\x10\x0b\x12\x10\n\x0cCUST_STATINC\x10\
+    \x0c\x12\x10\n\x0cCUST_PHYSINC\x10\r\x12\x10\n\x0cCUST_CONDINC\x10\x0e\
+    \x12\x10\n\x0cCUST_PHYSREC\x10\x0f\x12\x10\n\x0cCUST_CONDREC\x10\x10\x12\
+    \x14\n\x10CUST_ATTACKSPEED\x10\x11\x12\x12\n\x0eCUST_SIPHONINC\x10\x12\
+    \x12\x12\n\x0eCUST_SIPHONREC\x10\x13\x12\x0f\n\x0bBT_UNPARSED\x10\x14\
+    \x12\x10\n\nBT_UNKNOWN\x10\xff\xff\x03\x1a\0*?\n\x08Affinity\x12\x0f\n\
+    \x0bAF_Unparsed\x10\0\x12\n\n\x06Friend\x10\x01\x12\x07\n\x03Foe\x10\x02\
+    \x12\x0b\n\x07Unknown\x10\x03\x1a\0*\xa2\x01\n\x10BuffDamageResult\x12\
+    \x0f\n\x0bBD_Unparsed\x10\0\x12\r\n\tBD_Normal\x10\x01\x12\x18\n\x14Invu\
+    lnerableFromBuff\x10\x02\x12\x1a\n\x16InvulnerableFromSkill1\x10\x03\x12\
+    \x1a\n\x16InvulnerableFromSkill2\x10\x04\x12\x1a\n\x16InvulnerableFromSk\
+    ill3\x10\x05\x1a\0*\xd0\x01\n\x0cCombatResult\x12\n\n\x06Normal\x10\0\
+    \x12\x0c\n\x08Critical\x10\x01\x12\n\n\x06Glance\x10\x02\x12\t\n\x05Bloc\
+    k\x10\x03\x12\t\n\x05Evade\x10\x04\x12\r\n\tInterrupt\x10\x05\x12\n\n\
+    \x06Absorb\x10\x06\x12\t\n\x05Blind\x10\x07\x12\x0f\n\x0bKillingBlow\x10\
+    \x08\x12\n\n\x06Downed\x10\t\x12\x0c\n\x08Breakbar\x10\n\x12\x10\n\x0cOn\
+    Activation\x10\x0b\x12\x0e\n\nCR_Unknown\x10\x0c\x12\x0f\n\x0bCR_Unparse\
+    d\x10\r\x1a\0*\x8e\x01\n\tEventType\x12\x08\n\x04None\x10\0\x12\x10\n\
+    \x0cDirectDamage\x10\x07\x12\x0f\n\x0bBuffApplied\x10\x01\x12\x0f\n\x0bB\
+    uffRemoved\x10\x02\x12\x10\n\x0cStateChanged\x10\x03\x12\x0f\n\x0bET_Unp\
+    arsed\x10\x04\x12\x0e\n\nActivation\x10\x05\x12\x0e\n\nBuffDamage\x10\
+    \x06\x1a\0*\xd1\x02\n\x0bStateChange\x12\x08\n\x04NONE\x10\0\x12\x0f\n\
+    \x0bENTERCOMBAT\x10\x01\x12\x0e\n\nEXITCOMBAT\x10\x02\x12\x0c\n\x08CHANG\
+    EUP\x10\x03\x12\x0e\n\nCHANGEDEAD\x10\x04\x12\x0e\n\nCHANGEDOWN\x10\x05\
+    \x12\x0c\n\x08LOGSTART\x10\t\x12\n\n\x06LOGEND\x10\n\x12\x0c\n\x08WEAPSW\
+    AP\x10\x0b\x12\n\n\x06REWARD\x10\x11\x12\x0f\n\x0bBUFFINITIAL\x10\x12\
+    \x12\x0e\n\nTEAMCHANGE\x10\x13\x12\x0f\n\x0bSTACKACTIVE\x10\x18\x12\x0e\
+    \n\nSTACKRESET\x10\x19\x12\t\n\x05GUILD\x10\x1a\x12\x07\n\x03TAG\x10!\
+    \x12\r\n\tSTATRESET\x10#\x12\r\n\tEXTENSION\x10$\x12\x0e\n\nAPIDELAYED\
+    \x10%\x12\x11\n\rINSTANCESTART\x10&\x12\x0b\n\x07UNKNOWN\x10'\x12\x0f\n\
+    \x0bSC_UNPARSED\x10(\x1a\0*\x92\x01\n\x10CombatActivation\x12\x0b\n\x07C\
+    A_NONE\x10\0\x12\t\n\x05START\x10\x01\x12\x14\n\x10QUICKNESS_UNUSED\x10\
+    \x02\x12\x0f\n\x0bCANCEL_FIRE\x10\x03\x12\x11\n\rCANCEL_CANCEL\x10\x04\
+    \x12\t\n\x05RESET\x10\x05\x12\x0e\n\nCA_UNKNOWN\x10\x06\x12\x0f\n\x0bCA_\
+    UNPARSED\x10\x07\x1a\0*Q\n\x0eBuffRemoveType\x12\x0b\n\x07BR_None\x10\0\
+    \x12\x07\n\x03All\x10\x01\x12\n\n\x06Single\x10\x02\x12\n\n\x06Manual\
+    \x10\x03\x12\x0f\n\x0bBR_Unparsed\x10\x04\x1a\0*`\n\tWeaponSet\x12\x0f\n\
+    \x0bWS_Unparsed\x10\0\x12\x0f\n\x0bWaterSetOne\x10\x01\x12\x0f\n\x0bWate\
+    rSetTwo\x10\x02\x12\x0e\n\nLandSetOne\x10\x05\x12\x0e\n\nLandSetTwo\x10\
+    \x06\x1a\0B\0b\x06proto3\
 ";
 
 static file_descriptor_proto_lazy: ::protobuf::rt::LazyV2<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::rt::LazyV2::INIT;

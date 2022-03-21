@@ -10,6 +10,7 @@ enum UiState {
 }
 
 enum CombatType {
+    CT_UnParsed = 0;
     Area = 1;
     Local = 2;
 }
@@ -17,39 +18,171 @@ enum CombatType {
 message Actor {
     string name = 1;
     uint32 id = 2;
-    uint32 prof = 3;
-    uint32 elite = 4;
-    uint32 self_ = 5;
+    uint32 Profession = 3;
+    uint32 EliteSpec = 4;
+    bool is_player = 5;
     uint32 team = 6;
+}
+
+// Referenced in documentation, but not in any fields
+enum BuffType {
+    BT_NONE = 0;
+	POWER = 1;
+	PRECISION = 2;
+	TOUGHNESS = 3;
+	VITALITY = 4;
+	FEROCITY    = 5;
+	HEALING = 6;
+	CONDITION = 7;
+	CONCENTRATION  = 8;
+	EXPERTISE = 9;
+	CUST_ARMOR = 10;
+	CUST_AGONY = 11;
+	CUST_STATINC = 12;
+	CUST_PHYSINC = 13;
+	CUST_CONDINC = 14;
+	CUST_PHYSREC = 15;
+	CUST_CONDREC = 16;
+	CUST_ATTACKSPEED = 17;
+	CUST_SIPHONINC = 18;
+	CUST_SIPHONREC = 19;
+    BT_UNPARSED = 20;
+	BT_UNKNOWN = 65535; // unknown or invalid, ignore
+}
+
+enum Affinity {
+    AF_Unparsed = 0;
+    Friend = 1;
+    Foe = 2;
+    Unknown = 3;
+}
+
+enum BuffDamageResult {
+    BD_Unparsed = 0;
+    BD_Normal = 1;
+    InvulnerableFromBuff = 2;
+    InvulnerableFromSkill1 = 3;
+    InvulnerableFromSkill2 = 4;
+    InvulnerableFromSkill3 = 5;
+}
+
+enum CombatResult {
+    Normal = 0;
+    Critical = 1;
+    Glance = 2;
+    Block   = 3;
+    Evade   = 4;
+    Interrupt = 5;
+    Absorb = 6;
+    Blind = 7;
+    KillingBlow = 8;
+    Downed = 9;
+    Breakbar = 10; // not a damage strike, target had value of breakbar damage dealt
+    OnActivation = 11; // not a damage strike, on-activation event (src hit dst if damaging buff)
+    CR_Unknown = 12;
+    CR_Unparsed = 13;
+}
+
+enum EventType {
+    None = 0;
+    DirectDamage = 7;
+    BuffApplied = 1;
+    BuffRemoved = 2;
+    StateChanged = 3;
+    ET_Unparsed = 4;
+    Activation = 5;
+    BuffDamage = 6;
+}
+
+enum StateChange {
+    NONE = 0; // not used - not this kind of event
+    ENTERCOMBAT = 1; // src_agent entered combat, dst_agent is subgroup
+	EXITCOMBAT = 2; // src_agent left combat
+	CHANGEUP = 3; // src_agent is now alive
+	CHANGEDEAD = 4; // src_agent is now dead
+	CHANGEDOWN = 5; // src_agent is now downed
+	LOGSTART = 9; // log start. value = server unix timestamp **uint32**. buff_dmg = local unix timestamp. src_agent = 0x637261 (arcdps id) if evtc, species id if realtime
+	LOGEND = 10; // log end. value = server unix timestamp **uint32**. buff_dmg = local unix timestamp. src_agent = 0x637261 (arcdps id) if evtc, species id if realtime
+	WEAPSWAP = 11; // src_agent swapped weapon set. dst_agent = current set id (0/1 water, 4/5 land)
+	REWARD = 17; // src_agent is self, dst_agent is reward id, value is reward type. these are the wiggly boxes that you get
+	BUFFINITIAL = 18; // combat event that will appear once per buff per agent on logging start (statechange==18, buff==18, normal cbtevent otherwise)
+	TEAMCHANGE = 19; // src_agent change, dst_agent new team id
+    STACKACTIVE = 24; // src_agent is agent with buff, dst_agent is the stackid marked active
+	STACKRESET = 25; // src_agent is agent with buff, value is the duration to reset to (also marks inactive), pad61- is the stackid
+	GUILD = 26; // src_agent is agent, dst_agent through buff_dmg is 16 byte guid (client form, needs minor rearrange for api form)
+    TAG = 33; // src_agent is agent, value is the id (volatile, game build dependent) of the tag
+	STATRESET = 35;  // with arc ui stats reset (not in log), src_agent = npc id of active log
+	EXTENSION = 36; // cbtevent with statechange byte set to this
+	APIDELAYED = 37; // cbtevent with statechange byte set to this
+	INSTANCESTART = 38; // src_agent is ms time at which the instance likely was started
+	UNKNOWN = 39; // unknown or invalid, ignore
+    SC_UNPARSED = 40;
+}
+
+enum CombatActivation {
+	CA_NONE = 0; // not used - not this kind of event
+	START = 1; // started skill/animation activation
+	QUICKNESS_UNUSED = 2; // unused as of nov 5 2019
+	CANCEL_FIRE = 3; // stopped skill activation with reaching tooltip time
+	CANCEL_CANCEL = 4; // stopped skill activation without reaching tooltip time
+	RESET = 5; // animation completed fully
+	CA_UNKNOWN = 6;// unknown or invalid, ignore
+    CA_UNPARSED = 7;
+};
+
+enum BuffRemoveType {
+    BR_None = 0;
+    All = 1;
+    Single = 2;
+    Manual = 3;
+    BR_Unparsed = 4;
+}
+
+enum WeaponSet {
+    WS_Unparsed = 0;
+    WaterSetOne = 1;
+    WaterSetTwo = 2;
+    LandSetOne = 5;
+    LandSetTwo = 6;
 }
 
 message CombatEvent {
     uint64 time = 1;
-    uint32 src_agent =2;
-    uint32 dst_agent =3;
-    int32 value =4;
-    int32 buff_dmg =5;
-    uint32 overstack_value =6;
+    int32 damage = 4;
+    uint32 shield_damage = 6;
     uint32 skillid =7;
     uint32 src_instid = 8;
     uint32 dst_instid = 9;
     uint32 src_master_instid = 10;
-    uint32 iff = 11;
-    uint32 buff = 12;
-    uint32 result = 13;
-    uint32 is_activation = 14;
-    uint32 is_buffremove = 15;
-    uint32 is_ninety = 16;
-    uint32 is_fifty = 17;
-    uint32 is_moving = 18;
-    uint32 is_statechange = 19;
-    uint32 is_flanking = 20;
-    uint32 is_shields = 21;
+    Affinity friend_or_foe = 11;
+    CombatResult result = 13;
+    CombatActivation activation = 14;
+    BuffRemoveType buffremove = 15;
+    bool src_hp_over_90 = 16;
+    bool dst_hp_over_50 = 17;
+    bool src_is_moving = 18;
+    StateChange statechange = 19;
+    bool is_flanking = 20;
+    bool buff_added_active = 21;
     uint32 is_offcycle = 22;
     uint32 pad61 = 23;
     uint32 pad62 = 24;
     uint32 pad63 = 25;
     uint32 pad64 = 26;
+    bool target_downed = 27;
+    int32 buff_stacks_removed = 28;
+    int32 buff_duration = 29;
+    uint32 tag_id = 30;
+    uint32 buff_stackid = 31;
+    uint32 new_team_id = 32;
+    uint32 reward_id = 33;
+    uint32 reward_type = 34;
+    WeaponSet weapon_set = 35;
+    uint32 time_in_animation = 36;
+    uint32 time_in_animation_scaled = 37;
+    EventType EventType = 38;
+    BuffDamageResult buff_damage_result = 39;
+    BuffType buff_type = 40;
 }
 
 message CombatMessage {
@@ -59,7 +192,7 @@ message CombatMessage {
     Actor dst_actor = 4;
     string skillname = 5;
     uint64 id = 6;
-    uint64 revision = 7;
+    uint64 revision = 7;    
 }
 
 message Event {
