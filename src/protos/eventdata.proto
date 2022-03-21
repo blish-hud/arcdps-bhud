@@ -11,8 +11,8 @@ enum UiState {
 
 enum CombatType {
     CT_UnParsed = 0;
-    Area = 1;
-    Local = 2;
+    Area = 1; 
+    Local = 2; // Seem to be combat log seen from the target's perspective. Docs don't say what this is.
 }
 
 message Actor {

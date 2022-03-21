@@ -4,7 +4,7 @@ use smol::Task;
 
 use crate::protos::eventdata::{
     Actor, Affinity, BuffRemoveType, CombatActivation, CombatEvent, CombatMessage, CombatResult,
-    CombatType, Event, EventType, StateChange, WeaponSet, BuffDamageResult, BuffType
+    CombatType, Event, EventType, StateChange, WeaponSet, BuffDamageResult
 };
 use protobuf::ProtobufEnum;
 
@@ -102,6 +102,7 @@ fn get_actor_proto(actor: &AgOwned) -> Actor {
     proto
 }
 
+// Reference: https://www.deltaconnected.com/arcdps/evtc/README.txt
 fn get_ev_proto(ev: &cbtevent) -> CombatEvent {
     let mut proto = CombatEvent::new();
     proto.time = ev.time;
@@ -201,7 +202,7 @@ fn get_ev_proto(ev: &cbtevent) -> CombatEvent {
                                 // if is_offcycle is zero, overstack_value will be duration of the stack that is expected to be removed.
                                 // if is_offcycle is non-zero, overstack_value will be the new duration of the stack, value will be duration change.
                             } else {
-                                if ev.buff_dmg > 0 && ev.value > 0 {
+                                if ev.buff_dmg > 0 && ev.value == 0 {
                                     proto.EventType = EventType::BuffDamage;
                                     proto.damage = ev.buff_dmg;
                                     proto.buff_damage_result = BuffDamageResult::from_i32((ev.result+1) as i32)
