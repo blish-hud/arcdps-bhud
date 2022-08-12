@@ -1,5 +1,5 @@
 use crate::pubsub::dispatch;
-use arcdps::{CombatEvent, Agent, AgentOwned};
+use arcdps::{Agent, AgentOwned, CombatEvent};
 use smol::Task;
 
 pub fn cbt(
