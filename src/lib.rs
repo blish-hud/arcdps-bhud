@@ -3,12 +3,11 @@ mod executor;
 mod exports;
 mod pubsub;
 
-use winapi::shared::minwindef::LPVOID;
 
-fn main() -> LPVOID {
+fn main() -> Result<(), Box<(dyn std::error::Error + 'static)>> {
     executor::setup();
     pubsub::setup();
-    arcdps::gen_arcdps()
+    Ok(())
 }
 
 fn release() {

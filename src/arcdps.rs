@@ -1,26 +1,11 @@
 use crate::{exports::*, main, release};
-use winapi::shared::{minwindef::LPVOID, ntdef::PCCHAR};
 
-pub fn gen_arcdps() -> LPVOID {
-    arcdps_bindings::arcdps_exports::new(0x2_0804 | 0x4650 << 32, "BHUDrender", env!("CARGO_PKG_VERSION"))
-        .imgui(imgui as arcdps_bindings::SafeImguiCallback)
-        .combat(combat as arcdps_bindings::SafeCombatCallback)
-        .combat_local(combat_local as arcdps_bindings::SafeCombatCallback)
-        .save()
-}
-
-#[no_mangle]
-/* export -- arcdps looks for this exported function and calls the address it returns on client load */
-pub extern "system" fn get_init_addr(
-    _arcversionstr: PCCHAR,
-    _imguicontext: LPVOID,
-    _id3dd9: LPVOID,
-) -> LPVOID {
-    main as LPVOID
-}
-
-#[no_mangle]
-/* export -- arcdps looks for this exported function and calls the address it returns on client exit */
-pub extern "system" fn get_release_addr() -> LPVOID {
-    release as LPVOID
+arcdps::arcdps_export! {
+    name: "BHUDrender",
+    sig: 0x2_0804,
+    init: main,
+    release: release,
+    imgui: imgui,
+    combat: combat,
+    combat_local: combat_local,
 }
