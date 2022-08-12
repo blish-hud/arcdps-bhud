@@ -1,11 +1,11 @@
 use crate::pubsub::dispatch;
-use arcdps_bindings::{cbtevent, Ag, AgOwned};
+use arcdps::{Agent, AgentOwned, CombatEvent};
 use smol::Task;
 
 pub fn cbt(
-    ev: Option<&cbtevent>,
-    src: Option<&Ag>,
-    dst: Option<&Ag>,
+    ev: Option<&CombatEvent>,
+    src: Option<Agent>,
+    dst: Option<Agent>,
     skillname: Option<&'static str>,
     id: u64,
     revision: u64,
@@ -14,9 +14,9 @@ pub fn cbt(
 }
 
 pub fn cbt_local(
-    ev: Option<&cbtevent>,
-    src: Option<&Ag>,
-    dst: Option<&Ag>,
+    ev: Option<&CombatEvent>,
+    src: Option<Agent>,
+    dst: Option<Agent>,
     skillname: Option<&'static str>,
     id: u64,
     revision: u64,
@@ -25,9 +25,9 @@ pub fn cbt_local(
 }
 
 fn spawn_cbt(
-    ev: Option<&cbtevent>,
-    src: Option<&Ag>,
-    dst: Option<&Ag>,
+    ev: Option<&CombatEvent>,
+    src: Option<Agent>,
+    dst: Option<Agent>,
     skillname: Option<&'static str>,
     id: u64,
     revision: u64,
@@ -35,8 +35,8 @@ fn spawn_cbt(
 ) {
     Task::spawn(cbt_with_type(
         ev.copied(),
-        src.map(|x| (*x).into()),
-        dst.map(|x| (*x).into()),
+        src.map(|x| x.into()),
+        dst.map(|x| x.into()),
         skillname,
         id,
         revision,
@@ -46,9 +46,9 @@ fn spawn_cbt(
 }
 
 async fn cbt_with_type(
-    ev: Option<cbtevent>,
-    src: Option<AgOwned>,
-    dst: Option<AgOwned>,
+    ev: Option<CombatEvent>,
+    src: Option<AgentOwned>,
+    dst: Option<AgentOwned>,
     skillname: Option<&'static str>,
     id: u64,
     revision: u64,
@@ -62,9 +62,9 @@ async fn cbt_with_type(
 
 fn add_bytes(
     message: &mut Vec<u8>,
-    ev: Option<cbtevent>,
-    src: Option<AgOwned>,
-    dst: Option<AgOwned>,
+    ev: Option<CombatEvent>,
+    src: Option<AgentOwned>,
+    dst: Option<AgentOwned>,
     skillname: Option<&str>,
     id: u64,
     revision: u64,
@@ -96,7 +96,7 @@ fn add_bytes(
     message.append(&mut revision.to_le_bytes().to_vec());
 }
 
-fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {
+fn get_ev_bytes(ev: &CombatEvent) -> Vec<u8> {
     ev.time
         .to_le_bytes()
         .iter()
@@ -105,23 +105,23 @@ fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {
         .chain(ev.value.to_le_bytes().iter())
         .chain(ev.buff_dmg.to_le_bytes().iter())
         .chain(ev.overstack_value.to_le_bytes().iter())
-        .chain(ev.skillid.to_le_bytes().iter())
-        .chain(ev.src_instid.to_le_bytes().iter())
-        .chain(ev.dst_instid.to_le_bytes().iter())
-        .chain(ev.src_master_instid.to_le_bytes().iter())
-        .chain(ev.dst_master_instid.to_le_bytes().iter())
+        .chain(ev.skill_id.to_le_bytes().iter())
+        .chain(ev.src_instance_id.to_le_bytes().iter())
+        .chain(ev.dst_instance_id.to_le_bytes().iter())
+        .chain(ev.src_master_instance_id.to_le_bytes().iter())
+        .chain(ev.dst_master_instance_id.to_le_bytes().iter())
         .chain(ev.iff.to_le_bytes().iter())
         .chain(ev.buff.to_le_bytes().iter())
         .chain(ev.result.to_le_bytes().iter())
         .chain(ev.is_activation.to_le_bytes().iter())
-        .chain(ev.is_buffremove.to_le_bytes().iter())
+        .chain(ev.is_buff_remove.to_le_bytes().iter())
         .chain(ev.is_ninety.to_le_bytes().iter())
         .chain(ev.is_fifty.to_le_bytes().iter())
         .chain(ev.is_moving.to_le_bytes().iter())
         .chain(ev.is_statechange.to_le_bytes().iter())
         .chain(ev.is_flanking.to_le_bytes().iter())
         .chain(ev.is_shields.to_le_bytes().iter())
-        .chain(ev.is_offcycle.to_le_bytes().iter())
+        .chain(ev.is_off_cycle.to_le_bytes().iter())
         .chain(ev.pad61.to_le_bytes().iter())
         .chain(ev.pad62.to_le_bytes().iter())
         .chain(ev.pad63.to_le_bytes().iter())
@@ -130,7 +130,7 @@ fn get_ev_bytes(ev: &cbtevent) -> Vec<u8> {
         .collect::<Vec<u8>>()
 }
 
-fn get_ag_bytes(ag: &AgOwned) -> Vec<u8> {
+fn get_ag_bytes(ag: &AgentOwned) -> Vec<u8> {
     let (string_length, name_bytes) = if let Some(name) = &ag.name {
         let bytes = name.as_bytes();
         (bytes.len(), Some(bytes))
