@@ -1,15 +1,14 @@
+use std::{ffi::c_void, ptr::NonNull};
+
 mod arcdps;
-mod executor;
 mod exports;
 mod pubsub;
 
-fn main() -> Result<(), Box<(dyn std::error::Error + 'static)>> {
-    executor::setup();
+fn main(_: Option<NonNull<c_void>>) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
     pubsub::setup();
     Ok(())
 }
 
 fn release() {
     pubsub::teardown();
-    executor::teardown();
 }

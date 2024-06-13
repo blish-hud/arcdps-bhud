@@ -1,0 +1,11 @@
+.git/
+.gitignore
+.gitlab-ci.yml
+.idea/
+.rustfmt.toml
+docker/
+target/
+.github/
+readme.md
+*.dll
+*.pdb
