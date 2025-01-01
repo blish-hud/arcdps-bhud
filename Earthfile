@@ -1,5 +1,6 @@
 VERSION 0.8
-IMPORT github.com/Jake-Shadle/xwin:0871d7dbbbf36839f3cba53de8879851670a6246 AS xwin
+# IMPORT github.com/Jake-Shadle/xwin:0871d7dbbbf36839f3cba53de8879851670a6246 AS xwin
+IMPORT github.com/greaka/xwin AS xwin
 
 builder:
     FROM xwin+xwin
@@ -50,8 +51,8 @@ addon:
     RUN --mount=type=cache,mode=0777,id=$cargo_home_cache_id,sharing=shared,target=$CARGO_HOME \
         --mount=type=cache,mode=0777,id=$target_cache_id,sharing=locked,target=target \
         cargo build --release --color=always --target x86_64-pc-windows-msvc ${CARGO_EXTRA_ARGS} && \
-        (rm ${CARGO_TARGET_NAME}.dll || true) && \
-        (rm ${CARGO_TARGET_NAME}.pdb || true) && \
+        (rm -f ${CARGO_TARGET_NAME}.dll || true) && \
+        (rm -f ${CARGO_TARGET_NAME}.pdb || true) && \
         cp ${target_folder}/${CARGO_TARGET_NAME}.dll ./ && \
         (cp ${target_folder}/${CARGO_TARGET_NAME}.pdb ./ || true)
 
