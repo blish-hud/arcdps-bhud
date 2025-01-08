@@ -9,5 +9,5 @@ arcdps::arcdps_export! {
     combat: combat,
     combat_local: combat_local,
     unofficial_extras_squad_update: squad,
-    unofficial_extras_chat_message: message,
+    unofficial_extras_chat_message2: message
 }
