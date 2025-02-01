@@ -36,9 +36,9 @@ pub fn ue_msg<'a>(msg_type: ChatMessageType, msg: ChatMessageInfo2<'a>) {
 }
 
 impl Message for SquadMessageInfo<'_> {
-    const MESSAGE_ID: MessageId = MessageId::ChatMessage;
+    const MESSAGE_ID: MessageId = MessageId::SquadMessage;
 }
 
 impl Message for NpcMessageInfo<'_> {
-    const MESSAGE_ID: MessageId = MessageId::ChatMessage;
+    const MESSAGE_ID: MessageId = MessageId::NpcMessage;
 }

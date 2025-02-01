@@ -21,7 +21,8 @@ pub enum MessageId {
     Combat,
     CombatLocal,
     UserInfo,
-    ChatMessage,
+    SquadMessage,
+    NpcMessage
 }
 
 pub fn imgui(_ui: &imgui::Ui, not_charsel_or_loading: bool) {
