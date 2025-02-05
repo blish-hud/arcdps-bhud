@@ -50,7 +50,7 @@ impl<'a> From<&'a NpcMessageInfo<'a>> for NpcMsg<'a> {
     fn from(msg: &NpcMessageInfo<'a>) -> Self {
         Self {
             character_name: msg.character_name,
-            message: msg.character_name,
+            message: msg.message,
             timestamp: msg.timestamp.timestamp_nanos_opt().unwrap() as _,
         }
     }
