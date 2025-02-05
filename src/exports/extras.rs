@@ -19,19 +19,15 @@ impl Message for UserInfo<'_> {
     const MESSAGE_ID: MessageId = MessageId::UserInfo;
 }
 
-pub fn ue_msg<'a>(msg_type: ChatMessageType, msg: ChatMessageInfo2<'a>) {
-    let _ = msg_type;
-    match msg_type {
-        ChatMessageType::Squad => {
-            if let Some(squad_info) = msg.squad_message_info {
-                dispatch(&squad_info).ok();
-            }
+pub fn ue_msg<'a>(msg: &ChatMessageInfo2<'a>) {
+    match msg {
+        ChatMessageInfo2::Squad(squad_info) => {
+            dispatch(squad_info).ok();
         }
-        ChatMessageType::NPC => {
-            if let Some(npc_info) = msg.npc_message_info {
-                dispatch(&npc_info).ok();
-            }
+        ChatMessageInfo2::Npc(npc_info) => {
+            dispatch(npc_info).ok();
         }
+        _ => {}
     };
 }
 
