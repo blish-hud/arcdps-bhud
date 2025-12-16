@@ -4,7 +4,7 @@ mod arcdps;
 mod exports;
 mod pubsub;
 
-fn main(_: Option<NonNull<c_void>>) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
+fn main(_: Option<NonNull<c_void>>) -> Result<(), Box<dyn std::error::Error + 'static>> {
     pubsub::setup();
     Ok(())
 }
