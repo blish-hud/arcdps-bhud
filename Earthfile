@@ -1,6 +1,5 @@
 VERSION 0.8
-# IMPORT github.com/Jake-Shadle/xwin:0871d7dbbbf36839f3cba53de8879851670a6246 AS xwin
-IMPORT github.com/greaka/xwin AS xwin
+IMPORT github.com/Jake-Shadle/xwin AS xwin
 
 builder:
     FROM xwin+xwin

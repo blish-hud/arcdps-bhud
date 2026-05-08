@@ -1,6 +1,6 @@
 [package]
 name = "arcdps-bhud"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Greaka <arcdps-bhud@greaka.de>"]
 edition = "2018"
 
@@ -13,7 +13,10 @@ log = "0.4.21"
 
 [dependencies.arcdps]
 version = "0.11.2"
+default-features = false
 features = ["serde"]
+git = "https://github.com/greaka/arcdps_bindings"
+branch = "fake-1.92.7"
 
 [dependencies.serde]
 version = "1.0.203"

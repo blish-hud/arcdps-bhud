@@ -1,7 +1,6 @@
 mod combat;
 mod extras;
 
-use arcdps::imgui;
 pub use combat::{cbt as combat, cbt_local as combat_local};
 pub use extras::{ue_msg as message, ue_user as squad};
 use serde::Serialize;
@@ -25,9 +24,9 @@ pub enum MessageId {
     NpcMessage,
 }
 
-pub fn imgui(_ui: &imgui::Ui, not_charsel_or_loading: bool) {
+pub unsafe extern "C" fn imgui(not_charsel_or_loading: u32) {
     dispatch(&Ui {
-        not_charsel_or_loading,
+        not_charsel_or_loading: not_charsel_or_loading != 0,
     })
     .ok();
 }

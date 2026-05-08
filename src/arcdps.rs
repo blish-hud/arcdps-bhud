@@ -5,7 +5,7 @@ arcdps::arcdps_export! {
     sig: 0x2_0804,
     init: main,
     release: release,
-    imgui: imgui,
+    raw_imgui: imgui,
     combat: combat,
     combat_local: combat_local,
     unofficial_extras_squad_update: squad,
